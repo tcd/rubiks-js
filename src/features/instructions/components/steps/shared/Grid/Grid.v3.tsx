@@ -9,13 +9,13 @@ import {
 
 import type { ISxProps as SxProps } from "@app/theme"
 
-export type CubeProps = {
+export type GridProps = {
     size?: number
     color?: string
     children?: React.ReactNode
 }
 
-export const Grid = (props: CubeProps): JSX.Element => {
+export const Grid = (props: GridProps): JSX.Element => {
 
     const {
         size = 100,
