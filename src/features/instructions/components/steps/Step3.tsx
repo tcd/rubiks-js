@@ -1,4 +1,4 @@
-import { StepCard } from "./StepCard"
+import { StepCard } from "./shared"
 
 export const Step3 = (): JSX.Element => {
     return (
