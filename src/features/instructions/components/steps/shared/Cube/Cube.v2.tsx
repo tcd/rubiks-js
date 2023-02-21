@@ -71,9 +71,9 @@ export const Cube = (props: CubeProps): JSX.Element => {
                         className="top"
                         fill={CubeColors.white}
                     >
-                        <path className="t1" d="M 29,18 48,24 23,32 4,25" />
-                        <path className="t2" d="M 56,10 73,16 51,23 33,17" />
-                        <path className="t3" d="M 77,3 95,9 76,15 58,9" />
+                        <path className="t2" d="M 29,18 48,24 23,32 4,25" />
+                        <path className="t3" d="M 56,10 73,16 51,23 33,17" />
+                        <path className="t4" d="M 77,3 95,9 76,15 58,9" />
                         <path className="t4" d="M 50,25 73,33 48,42 25,33" />
                         <path className="t5" d="M 76,17 99,24 76,32 54,24" />
                         <path className="t6" d="M 97,10 120,17 101,23 79,16" />

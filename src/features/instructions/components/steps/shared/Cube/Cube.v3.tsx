@@ -45,12 +45,12 @@ export const Cube = (props: CubeProps): JSX.Element => {
                         strokeLinejoin="round"
                         commands={[
                             ["M", [
-                                [77,1],
-                                [149, 24],
+                                [ 77,   1],
+                                [149,  24],
                                 [146, 118],
-                                [76,156],
-                                [7,118],
-                                [1,24],
+                                [ 76, 156],
+                                [  7, 118],
+                                [  1,  24],
                             ]],
                             ["Z", []],
                         ]}
@@ -59,29 +59,29 @@ export const Cube = (props: CubeProps): JSX.Element => {
                         className="front"
                         fill={CubeColors.blue}
                     >
-                        <path className="f1" d="M  3,27  22, 35 23, 65  5, 56" />
-                        <path className="f2" d="M 25,36  46, 45 47, 76 26, 66" />
-                        <path className="f3" d="M 49,46  74, 55 74, 88 50, 77" />
-                        <path className="f4" d="M  5,60  23, 69 24, 97  7, 88" />
-                        <path className="f5" d="M 26,70  47, 80 48,109 27, 98" />
-                        <path className="f6" d="M 50,81  74, 92 74,122 51,110" />
-                        <path className="f7" d="M  7,91  24,101 25,126  9,117" />
-                        <path className="f8" d="M 27,102 48,113 48,138 28,127" />
-                        <path className="f9" d="M 51,114 74,126 74,152 51,139" />
+                        <Path className="f1" commands={[["M", [[ 3, 27],  [22,  35], [23,  65], [ 5,  56]]]]} />
+                        <Path className="f2" commands={[["M", [[25, 36],  [46,  45], [47,  76], [26,  66]]]]} />
+                        <Path className="f3" commands={[["M", [[49, 46],  [74,  55], [74,  88], [50,  77]]]]} />
+                        <Path className="f4" commands={[["M", [[ 5, 60],  [23,  69], [24,  97], [ 7,  88]]]]} />
+                        <Path className="f5" commands={[["M", [[26, 70],  [47,  80], [48, 109], [27,  98]]]]} />
+                        <Path className="f6" commands={[["M", [[50, 81],  [74,  92], [74, 122], [51, 110]]]]} />
+                        <Path className="f7" commands={[["M", [[ 7, 91],  [24, 101], [25, 126], [ 9, 117]]]]} />
+                        <Path className="f8" commands={[["M", [[27, 102], [48, 113], [48, 138], [28, 127]]]]} />
+                        <Path className="f9" commands={[["M", [[51, 114], [74, 126], [74, 152], [51, 139]]]]} />
                     </G>
                     <G
                         className="top"
                         fill={CubeColors.white}
                     >
-                        <path className="t1" d="M 29,18 48,24 23,32 4,25" />
-                        <path className="t2" d="M 56,10 73,16 51,23 33,17" />
-                        <path className="t3" d="M 77,3 95,9 76,15 58,9" />
-                        <path className="t4" d="M 50,25 73,33 48,42 25,33" />
-                        <path className="t5" d="M 76,17 99,24 76,32 54,24" />
-                        <path className="t6" d="M 97,10 120,17 101,23 79,16" />
-                        <path className="t7" d="M 76,34 100,43 76,52 51,43" />
-                        <path className="t8" d="M 101,25 126,33 103,42 79,33" />
-                        <path className="t9" d="M 122,18 146,25 129,32 104,24" />
+                        <Path className="t1" commands={[["M", [[ 29, 18], [ 48, 24], [ 23, 32], [  4, 25]]]]} />
+                        <Path className="t2" commands={[["M", [[ 56, 10], [ 73, 16], [ 51, 23], [ 33, 17]]]]} />
+                        <Path className="t3" commands={[["M", [[ 77,  3], [ 95,  9], [ 76, 15], [ 58,  9]]]]} />
+                        <Path className="t4" commands={[["M", [[ 50, 25], [ 73, 33], [ 48, 42], [ 25, 33]]]]} />
+                        <Path className="t5" commands={[["M", [[ 76, 17], [ 99, 24], [ 76, 32], [ 54, 24]]]]} />
+                        <Path className="t6" commands={[["M", [[ 97, 10], [120, 17], [101, 23], [ 79, 16]]]]} />
+                        <Path className="t7" commands={[["M", [[ 76, 34], [100, 43], [ 76, 52], [ 51, 43]]]]} />
+                        <Path className="t8" commands={[["M", [[101, 25], [126, 33], [103, 42], [ 79, 33]]]]} />
+                        <Path className="t9" commands={[["M", [[122, 18], [146, 25], [129, 32], [104, 24]]]]} />
                     </G>
                     <G
                         className="right"
