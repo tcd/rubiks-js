@@ -8,6 +8,24 @@ import {
 import { Grid } from "../shared"
 
 export const Step3A = (): JSX.Element => {
+
+    const color = "indianred"
+
+    const lineProps: PathProps = {
+        fill: "none",
+        stroke: color,
+        strokeWidth: "5px",
+        markerEnd: "url(#arrow)",
+        commands: [
+            ["M", [[49.5,16.5]]],
+            ["Q", [[
+                137,-50,
+                85,45,
+            ]]],
+            // ["z", []],
+        ],
+    }
+
     return (
         <>
             <Grid>
@@ -21,11 +39,11 @@ export const Step3A = (): JSX.Element => {
                     >
                         <Path
                             transform={[
-                                ["scale",     [0.55   ]],
-                                ["translate", [3, 4.2]],
+                                ["scale",     [0.50]],
+                                ["translate", [4, 5]],
                             ]}
                             d="M 0,0 L 10,5 0,10 Z"
-                            fill="red"
+                            fill={color}
                         />
                     </Marker>
                 </Defs>
@@ -35,17 +53,3 @@ export const Step3A = (): JSX.Element => {
     )
 }
 
-const lineProps: PathProps = {
-    fill: "none",
-    stroke: "red",
-    strokeWidth: "3.5px",
-    markerEnd: "url(#arrow)",
-    commands: [
-        ["M", [[49.5,16.5]]],
-        ["Q", [[
-            135,-20,
-            84,50,
-        ]]],
-        // ["z", []],
-    ],
-}
