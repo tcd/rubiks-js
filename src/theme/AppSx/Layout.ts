@@ -17,11 +17,11 @@ const main: SxProps = {
 
 const footer: SxProps = {
     height: "45px",
-    backgroundColor: "royalblue",
-    textAlign:"center",
-    display:"flex",
-    justifyContent:"center",
-    alignItems:"center",
+    backgroundColor: theme => theme.palette.primary.main,
+    textAlign: "center",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
 }
 
 export const Layout = {
