@@ -6,7 +6,9 @@ import {
 } from "svg4react"
 
 import { AppThemeVars } from "@app/theme"
+
 const { CubeColors } = AppThemeVars
+
 import type { CubeProps } from "./types"
 
 export const Cube = (props: CubeProps): JSX.Element => {
