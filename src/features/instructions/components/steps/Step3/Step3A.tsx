@@ -7,6 +7,8 @@ import {
 
 import { Grid } from "../shared"
 
+import { Table3A } from "./Table3A"
+
 export const Step3A = (): JSX.Element => {
 
     const color = "indianred"
@@ -49,6 +51,8 @@ export const Step3A = (): JSX.Element => {
                 </Defs>
                 <Path {...lineProps} />
             </Grid>
+            <br />
+            <Table3A />
         </>
     )
 }
