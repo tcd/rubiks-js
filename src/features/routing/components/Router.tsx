@@ -4,7 +4,7 @@ import {
 
 import { Routes } from "./Routes"
 
-export const Router = (_props: unknown): JSX.Element => {
+export const Router = (): JSX.Element => {
     return (
         <ReactRouter>
             <Routes />

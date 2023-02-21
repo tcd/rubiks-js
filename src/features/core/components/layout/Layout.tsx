@@ -9,7 +9,7 @@ export type LayoutProps = {
     children: React.ReactNode
 }
 
-export const Layout = (_props: unknown): JSX.Element => {
+export const Layout = (): JSX.Element => {
     return (
         <Box sx={AppSx.Layout.root}>
             <Header />

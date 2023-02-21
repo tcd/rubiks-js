@@ -2,12 +2,12 @@ import { Typography } from "@mui/material"
 
 import { Page } from "@app/features/shared"
 
-export const NotFoundPage = (): JSX.Element => {
+export const InstructionsPage = (): JSX.Element => {
     return (
         <Page
-            title="Not Found"
+            title="Instructions"
         >
-            <Typography>404 - Not Found</Typography>
+            <Typography>Instructions</Typography>
         </Page>
     )
 }
