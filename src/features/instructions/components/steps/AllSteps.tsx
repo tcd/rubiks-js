@@ -11,8 +11,8 @@ export const AllSteps = (): JSX.Element => {
             direction="column"
             spacing={4}
         >
-            <Step1 />
-            <Step2 />
+            {/* <Step1 /> */}
+            {/* <Step2 /> */}
             <Step3 />
         </Stack>
     )
