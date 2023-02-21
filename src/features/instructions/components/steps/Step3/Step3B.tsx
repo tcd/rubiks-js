@@ -8,7 +8,7 @@ import {
 
 import { Grid, StepTable } from "../shared"
 
-export const Step3A = (): JSX.Element => {
+export const Step3B = (): JSX.Element => {
 
     const color = "indianred"
 
@@ -68,4 +68,3 @@ export const Step3A = (): JSX.Element => {
         </Box>
     )
 }
-
