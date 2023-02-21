@@ -1,6 +1,7 @@
 import { Box } from "@mui/material"
 import {
     G,
+    Path,
     Svg,
 } from "svg4react"
 
@@ -15,7 +16,7 @@ export type CubeProps = {
 export const Cube = (props: CubeProps): JSX.Element => {
 
     const {
-        size = 100,
+        size = 200,
     } = props
 
     return (
@@ -30,7 +31,23 @@ export const Cube = (props: CubeProps): JSX.Element => {
                 vb={[150, 157]}
             >
                 <G className="root">
-                    <path fill="#000" d="M 77,1 149,24 146,118 77,156 7,118 1,24 z" />
+                    <Path
+                        fill="#000"
+                        stroke="#000"
+                        // d="M 77,1 149,24 146,118 77,156 7,118 1,24 z"
+                        strokeLinejoin="round"
+                        commands={[
+                            ["M", [
+                                [77,1],
+                                [149, 24],
+                                [146, 118],
+                                [76,156],
+                                [7,118],
+                                [1,24],
+                            ]],
+                            ["Z", []],
+                        ]}
+                    />
                     <G
                         className="front"
                         fill={CubeColors.blue}

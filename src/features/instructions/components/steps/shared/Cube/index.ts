@@ -1,1 +1,1 @@
-export * from "./Cube.v1"
+export * from "./Cube.v2"
