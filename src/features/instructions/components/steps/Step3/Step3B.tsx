@@ -20,8 +20,8 @@ export const Step3B = (): JSX.Element => {
         commands: [
             ["M", [[49.5,16.5]]],
             ["Q", [[
-                137,-50,
-                85,45,
+                -37,-50,
+                15,45,
             ]]],
             // ["z", []],
         ],
@@ -61,8 +61,8 @@ export const Step3B = (): JSX.Element => {
 
             <StepTable
                 steps={[
-                    [`U`,  `R`,  `U'`, `R'`],
-                    [`U'`, `F'`, `U`,  `F` ],
+                    [`U'`, `L'`, `U`,  `L` ],
+                    [`U`,  `F`,  `U'`, `F'`],
                 ]}
             />
         </Box>

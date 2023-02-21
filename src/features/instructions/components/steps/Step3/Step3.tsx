@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material"
-import { StepCard } from "../shared"
+import { StepCard, VR } from "../shared"
 
 import { Step3A } from "./Step3A"
 import { Step3B } from "./Step3B"
@@ -9,9 +9,11 @@ export const Step3 = (): JSX.Element => {
         <StepCard title="Step #3">
             <Stack
                 direction="row"
-                spacing={3}
+                spacing={5}
+                alignItems="stretch"
             >
                 <Step3A />
+                <VR />
                 <Step3B />
             </Stack>
         </StepCard>

@@ -20,7 +20,6 @@ export const StepCard = (props: StepCardProps): JSX.Element => {
             <Typography variant="h4">{title}</Typography>
             <br />
             <>{children && children}</>
-
         </Paper>
     )
 }
