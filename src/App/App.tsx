@@ -1,5 +1,12 @@
+import { CssBaseline, ThemeProvider } from "@mui/material"
+
+import { AppTheme } from "@app/theme"
+
 export const App = (): JSX.Element => {
     return (
-        <>Hello there</>
+        <ThemeProvider theme={AppTheme}>
+            <CssBaseline />
+            <>Hello there</>
+        </ThemeProvider>
     )
 }
