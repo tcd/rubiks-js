@@ -33,6 +33,7 @@
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.8.1",
         "source-map-loader": "^4.0.1",
+        "svg4react": "^0.17.0",
         "tsconfig-paths-webpack-plugin": "^4.0.0",
         "typescript": "^4.9.5",
         "webpack": "^5.75.0",
