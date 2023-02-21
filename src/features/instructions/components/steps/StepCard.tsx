@@ -13,8 +13,11 @@ export const StepCard = (props: StepCardProps): JSX.Element => {
     } = props
 
     return (
-        <Paper>
-            <Typography>{title}</Typography>
+        <Paper
+            sx={{ p: 2 }}
+            elevation={3}
+        >
+            <Typography variant="h4">{title}</Typography>
             <br />
             <>{children && children}</>
 
