@@ -23,7 +23,7 @@ export class Euler {
         this._order = order || Euler.DefaultOrder
     }
 
-    private _updateQuaternion () {
+    public _updateQuaternion () {
         if (this._quaternion !== undefined) {
             this._quaternion.setFromEuler(this, false)
         }

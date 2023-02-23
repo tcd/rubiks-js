@@ -14,14 +14,14 @@ export class Quaternion {
     public _w: any
     public _euler: Euler
 
-    constructor(x, y, z, w) {
+    constructor(x = 0, y = 0, z = 0, w = 0) {
         this._x = x || 0
         this._y = y || 0
         this._z = z || 0
         this._w = (w !== undefined) ? w : 1
     }
 
-    private _updateEuler(callback: any = undefined) {
+    public _updateEuler(callback: any = undefined) {
         if (this._euler !== undefined) {
             this._euler.setFromQuaternion(this, undefined, false)
         }
@@ -265,7 +265,7 @@ export class Quaternion {
         return this
     }
 
-    public multiply(q, p) {
+    public multiply(q, p = undefined) {
         if (p !== undefined) {
             console.warn("DEPRECATED: Quaternion's .multiply() now only accepts one argument. Use .multiplyQuaternions( a, b ) instead.")
             return this.multiplyQuaternions(q, p)

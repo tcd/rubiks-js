@@ -9,7 +9,7 @@ export class Box3 {
     public min
     public max
 
-    constructor(min, max) {
+    constructor(min = undefined, max = undefined) {
         this.min = (min !== undefined) ? min : new Vector3(Infinity, Infinity, Infinity)
         this.max = (max !== undefined) ? max : new Vector3(-Infinity, -Infinity, -Infinity)
     }

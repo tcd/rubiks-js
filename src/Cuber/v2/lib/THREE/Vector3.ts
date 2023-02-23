@@ -1,4 +1,4 @@
-import { Euler } from "../Euler"
+import { Euler } from "./Euler"
 
 /**
  * @author [mrdoob](http://mrdoob.com/)
@@ -60,7 +60,7 @@ export class Vector3 {
         this.z = v.z
         return this
     }
-    add(v, w) {
+    add(v, w = undefined) {
         if (w !== undefined) {
             console.warn("DEPRECATED: Vector3's .add() now only accepts one argument. Use .addVectors( a, b ) instead.")
             return this.addVectors(v, w)
