@@ -1,4 +1,4 @@
-import { Euler } from "../../lib/Euler"
+import { Euler } from "../Euler"
 
 /**
  * @author [mrdoob](http://mrdoob.com/)

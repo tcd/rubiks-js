@@ -34,8 +34,7 @@ export class Queue {
     // The idea here with .add() is that .validate() will always return an Array.
     // The reason for this is that the validator may decide it needs to add more
     // than one element to the ERNO.Queue. This allows it to do so.
-    public add() {
-        let elements = Array.prototype.slice.call(arguments)
+    public add(...elements) {
         if (this.validate !== undefined && this.validate instanceof Function) elements = this.validate(elements)
         if (elements instanceof Array) {
             elements.forEach(function(element) {
@@ -45,8 +44,7 @@ export class Queue {
         return this.future
     }
 
-    public remove() {
-        const elements = Array.prototype.slice.call(arguments)
+    public remove(...elements) {
         if (elements instanceof Array) {
             elements.forEach(function(element) {
                 this.future = this.future.filter(function(futureElement) {
@@ -57,8 +55,7 @@ export class Queue {
         return this.future
     }
 
-    public purge() {
-        const elements = Array.prototype.slice.call(arguments)
+    public purge(...elements) {
         if (elements instanceof Array) {
             elements.forEach(function(element) {
                 this.history = this.history.filter(function(historyElement) {

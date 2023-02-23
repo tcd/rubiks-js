@@ -1,13 +1,13 @@
 const Controls = () => {
     //Enum of states
-    let STATE = { NONE: -1, ROTATE: 0, INERTIA: 1 }
+    const STATE = { NONE: -1, ROTATE: 0, INERTIA: 1 }
     // Returns the bounding area of the element
     function getBoundingClientRect(element) {
-        let bounds = element !== document ? element.getBoundingClientRect() : {
+        const bounds = element !== document ? element.getBoundingClientRect() : {
             left: 0,
             top: 0,
             width: window.innerWidth,
-            height: window.innerHeight
+            height: window.innerHeight,
         }
         return bounds
     }
@@ -17,22 +17,22 @@ const Controls = () => {
             mouse = new THREE.Vector2(),
             mouseEnd = new THREE.Vector2(),
             lastPosition = new THREE.Vector2(),
-            projector = new ERNO.Projector(object, domElement),
+            projector = new Projector(object, domElement),
             api = {
                 enabled: true,
                 domElement: domElement,
                 rotationSpeed: 4.0,
-                damping: 0.25
+                damping: 0.25,
             }
-        let getMouseProjectionOnBall = function(x, y, vector) {
-            let view = getBoundingClientRect(api.domElement),
+        const getMouseProjectionOnBall = function(x, y, vector) {
+            const view = getBoundingClientRect(api.domElement),
                 aspect = view.height / view.width
-            let dpr = window.devicePixelRatio || 1
+            const dpr = window.devicePixelRatio || 1
             x *= dpr
             y *= dpr
             return vector.set(
                 (x - view.width - view.left) * 0.001, // view.width,// * ( devicePixelRatio || 1 ) ,
-                (view.height + view.top - y) * 0.001 // view.height// * aspect // ( devicePixelRatio || 1 )
+                (view.height + view.top - y) * 0.001, // view.height// * aspect // ( devicePixelRatio || 1 )
             )
         }
         api.update = function() {
@@ -56,7 +56,7 @@ const Controls = () => {
                 //	Then we can rotate the cube based on how far the drag occured
                 object.object3D.rotateOnAxis(axis, -length * api.rotationSpeed)
                 //	Reset our internal state
-                if (state === STATE.ROTATE) state = STATE.NONE;
+                if (state === STATE.ROTATE) state = STATE.NONE
                 //	If the rotation is below a certain threshold specified as a factor of the damping effect,
                 //	then for all purposes, any more rotation is not noticesable, so we can might aswell stop rotating.
                 else if (state === STATE.INERTIA && length >= 0.0001) {
@@ -76,9 +76,9 @@ const Controls = () => {
                 direction.multiplyScalar(0)
                 getMouseProjectionOnBall(event.pageX, event.pageY, mouse)
                 lastPosition.copy(mouse)
-                api.domElement.removeEventListener('mousedown', mousedown)
-                document.addEventListener('mousemove', mousemove)
-                document.addEventListener('mouseup', mouseup)
+                api.domElement.removeEventListener("mousedown", mousedown)
+                document.addEventListener("mousemove", mousemove)
+                document.addEventListener("mouseup", mouseup)
             }
         }
         function mousemove(event) {
@@ -92,9 +92,9 @@ const Controls = () => {
             }
         }
         function mouseup(event) {
-            document.removeEventListener('mousemove', mousemove)
-            document.removeEventListener('mouseup', mouseup)
-            api.domElement.addEventListener('mousedown', mousedown)
+            document.removeEventListener("mousemove", mousemove)
+            document.removeEventListener("mouseup", mouseup)
+            api.domElement.addEventListener("mousedown", mousedown)
             if (api.enabled) {
                 state = STATE.INERTIA
             }
@@ -105,9 +105,9 @@ const Controls = () => {
                 direction.multiplyScalar(0)
                 getMouseProjectionOnBall(event.touches[0].pageX, event.touches[0].pageY, mouse)
                 lastPosition.copy(mouse)
-                api.domElement.removeEventListener('touchstart', touchstart)
-                document.addEventListener('touchend', touchend)
-                document.addEventListener('touchmove', touchmove)
+                api.domElement.removeEventListener("touchstart", touchstart)
+                document.addEventListener("touchend", touchend)
+                document.addEventListener("touchmove", touchmove)
             }
         }
         function touchmove(event) {
@@ -121,15 +121,15 @@ const Controls = () => {
             }
         }
         function touchend(event) {
-            document.removeEventListener('touchend', touchend)
-            document.removeEventListener('touchmove', touchmove)
-            api.domElement.addEventListener('touchstart', touchstart)
+            document.removeEventListener("touchend", touchend)
+            document.removeEventListener("touchmove", touchmove)
+            api.domElement.addEventListener("touchstart", touchstart)
             if (api.enabled) {
                 state = STATE.INERTIA
             }
         }
-        api.domElement.addEventListener('mousedown', mousedown)
-        api.domElement.addEventListener('touchstart', touchstart)
+        api.domElement.addEventListener("mousedown", mousedown)
+        api.domElement.addEventListener("touchstart", touchstart)
         return api
     }
 }
