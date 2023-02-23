@@ -13,6 +13,9 @@
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "cSpell.words": [
-        "hault"
+        "Cubelet",
+        "Cubelets",
+        "hault",
+        "Lundin"
     ],
 }
