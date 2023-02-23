@@ -1,4 +1,11 @@
-export class _Three {
+/**
+ * @author [mrdoob](http://mrdoob.com/)
+ * @author [Larry Battle](http://bateru.com/news)
+ * @author [bhouston](http://exocortex.com)
+ */
+export abstract class THREE {
+
+    public static REVISION = "66"
     // =========================================================================
     // GL STATE CONSTANTS
     // =========================================================================
@@ -132,9 +139,4 @@ export class _Three {
     // public static RGB_PVRTC_2BPPV1_Format = 2101;
     // public static RGBA_PVRTC_4BPPV1_Format = 2102;
     // public static RGBA_PVRTC_2BPPV1_Format = 2103;
-}
-
-
-export const THREE: any = {
-
 }
