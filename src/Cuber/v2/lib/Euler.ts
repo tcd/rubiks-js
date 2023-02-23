@@ -157,7 +157,7 @@ export class Euler {
         return this
     }
 
-    public setFromQuaternion(q: Quaternion, order: string, update: boolean) {
+    public setFromQuaternion(q: Quaternion, order: string, update: boolean = undefined) {
         // q is assumed to be normalized
         // clamp, to handle numerical problems
         function clamp(x: number) {
@@ -222,6 +222,13 @@ export class Euler {
 
     public clone() {
         return new Euler(this._x, this._y, this._z, this._order)
+    }
+
+    // WARNING(bhouston): this discards revolution information
+    reorder(newOrder) {
+        const q = new THREE.Quaternion()
+        q.setFromEuler(this)
+        this.setFromQuaternion(q, newOrder)
     }
 
 }
