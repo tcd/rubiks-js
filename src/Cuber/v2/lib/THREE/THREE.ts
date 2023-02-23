@@ -5,7 +5,10 @@
  */
 export abstract class THREE {
 
+    public static Object3DIdCount = 0
+
     public static REVISION = "66"
+
     // =========================================================================
     // GL STATE CONSTANTS
     // =========================================================================

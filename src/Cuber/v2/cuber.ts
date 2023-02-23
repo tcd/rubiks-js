@@ -297,33 +297,7 @@ TWEEN.Tween = function(object) {
 }())
 
 THREE.EventDispatcher.prototype.apply(THREE.Object3D.prototype)
-THREE.Object3DIdCount = 0
-/**
- * @author [mrdoob](http://mrdoob.com/)
- * @author [mikael emtinger](http://gomo.se/)
- * @author [WestLangley](http://github.com/WestLangley)
-*/
-THREE.Camera = function() {
-    THREE.Object3D.call(this)
-    this.matrixWorldInverse = new THREE.Matrix4()
-    this.projectionMatrix = new THREE.Matrix4()
-}
-THREE.Camera.prototype = Object.create(THREE.Object3D.prototype)
-THREE.Camera.prototype.lookAt = function() {
-    // This routine does not support cameras with rotated and/or translated parent(s)
-    let m1 = new THREE.Matrix4()
-    return function(vector) {
-        m1.lookAt(this.position, vector, this.up)
-        this.quaternion.setFromRotationMatrix(m1)
-    }
-}()
-THREE.Camera.prototype.clone = function(camera) {
-    if (camera === undefined) camera = new THREE.Camera()
-    THREE.Object3D.prototype.clone.call(this, camera)
-    camera.matrixWorldInverse.copy(this.matrixWorldInverse)
-    camera.projectionMatrix.copy(this.projectionMatrix)
-    return camera
-}
+
 /**
  * @author [mrdoob](http://mrdoob.com/)
  * @author [greggman](http://games.greggman.com/)
@@ -445,7 +419,7 @@ THREE.Plane.prototype = {
     },
     setFromNormalAndCoplanarPoint: function(normal, point) {
         this.normal.copy(normal)
-        this.constant = - point.dot(this.normal)	// must be this.normal, not normal, as this.normal is normalized
+        this.constant = - point.dot(this.normal) // must be this.normal, not normal, as this.normal is normalized
         return this
     },
     setFromCoplanarPoints: function() {
@@ -551,8 +525,8 @@ THREE.Plane.prototype = {
  * @author [mrdoob](http://mrdoob.com/)
  * @author [mark lundin](http://mark-lundin.com)
  *
- *	This is slightly modified CSS Renderer that sets the object transform as individual translate, scale and rotate.
-    * 	The reason for this is that the transformation using matrix3d do not scale correctly under browser zoom.
+ * This is slightly modified CSS Renderer that sets the object transform as individual translate, scale and rotate.
+    *  The reason for this is that the transformation using matrix3d do not scale correctly under browser zoom.
     */
 THREE.CSS3DObject = function(element) {
     THREE.Object3D.call(this)
@@ -703,7 +677,7 @@ THREE.CSS3DRenderer = function() {
     }
     this.render = function(scene, camera) {
         // if( !this.done ){
-        // 	this.done = true;
+        //  this.done = true;
         let fov = 0.5 / Math.tan(THREE.Math.degToRad(camera.fov * 0.5)) * _height
         domElement.style.WebkitPerspective = fov + "px"
         domElement.style.MozPerspective = fov + "px"
@@ -1184,34 +1158,34 @@ ERNO.Cubelet = function(cube, id, colors) {
         // This is particularly useful for Striegel's solver
         // which requires an UP normal.
         this.faces[i].normal = ERNO.Direction.getNameById(i)
-        // 	// FACE CONTAINER.
-        // 	// This face of our Cubelet needs a DOM element for all the
-        // 	// related DOM elements to be attached to.
-        // 	let faceElement = document.createElement( 'div' );
-        // 	faceElement.classList.add( 'face' );
-        // 	faceElement.classList.add( 'face'+ ERNO.Direction.getNameById( i ).capitalize() );
-        // 	this.css3DObject.element.appendChild( faceElement );
-        // 	this.faces[i].element = faceElement;
-        // 	// WIREFRAME.
-        // 	let wireframeElement = document.createElement( 'div' );
-        // 	wireframeElement.classList.add( 'wireframe' );
-        // 	faceElement.appendChild( wireframeElement );
-        // 	// CUBELET ID.
-        // 	// For debugging we want the ability to display this Cubelet's ID number
-        // 	// with an underline (to make numbers like 6 and 9 legible upside-down).
-        // 	let idElement = document.createElement( 'div' );
-        // 	idElement.classList.add( 'id' );
-        // 	faceElement.appendChild( idElement );
-        // 	let underlineElement = document.createElement( 'span' );
-        // 	underlineElement.classList.add( 'underline' );
-        // 	underlineElement.innerText = this.id;
-        // 	idElement.appendChild( underlineElement );
+        //  // FACE CONTAINER.
+        //  // This face of our Cubelet needs a DOM element for all the
+        //  // related DOM elements to be attached to.
+        //  let faceElement = document.createElement( 'div' );
+        //  faceElement.classList.add( 'face' );
+        //  faceElement.classList.add( 'face'+ ERNO.Direction.getNameById( i ).capitalize() );
+        //  this.css3DObject.element.appendChild( faceElement );
+        //  this.faces[i].element = faceElement;
+        //  // WIREFRAME.
+        //  let wireframeElement = document.createElement( 'div' );
+        //  wireframeElement.classList.add( 'wireframe' );
+        //  faceElement.appendChild( wireframeElement );
+        //  // CUBELET ID.
+        //  // For debugging we want the ability to display this Cubelet's ID number
+        //  // with an underline (to make numbers like 6 and 9 legible upside-down).
+        //  let idElement = document.createElement( 'div' );
+        //  idElement.classList.add( 'id' );
+        //  faceElement.appendChild( idElement );
+        //  let underlineElement = document.createElement( 'span' );
+        //  underlineElement.classList.add( 'underline' );
+        //  underlineElement.innerText = this.id;
+        //  idElement.appendChild( underlineElement );
         // INTROVERTED FACES.
         // If this face has no color sticker then it must be interior to the Cube.
         // That means in a normal state (no twisting happening) it is entirely hidden.
         this.faces[i].isIntrovert = color === ERNO.COLORLESS
         if (color === ERNO.COLORLESS) {
-            // 		faceElement.classList.add( 'faceIntroverted' );
+            //   faceElement.classList.add( 'faceIntroverted' );
         }
         // EXTROVERTED FACES.
         // But if this face does have a color then we need to
@@ -1222,21 +1196,21 @@ ERNO.Cubelet = function(cube, id, colors) {
             // to determine below what 'type' of Cubelet this is:
             // Core, Center, Edge, or Corner.
             extrovertedFaces++
-            // 		faceElement.classList.add( 'faceExtroverted' );
-            // 		// STICKER.
-            // 		// You know, the color part that makes the Cube
-            // 		// the most frustrating toy ever.
-            // 		let stickerElement = document.createElement( 'div' );
-            // 		stickerElement.classList.add( 'sticker' );
-            // 		stickerElement.classList.add( color.name );
-            // 		faceElement.appendChild( stickerElement );
-            // 		// TEXT.
-            // 		// One character per face, mostly for our branding.
-            // 		let textElement = document.createElement( 'div' );
-            // 		textElement.classList.add( 'text' );
-            // 		textElement.innerText = i;
-            // 		this.faces[ i ].text = textElement;
-            // 		faceElement.appendChild( textElement );
+            //   faceElement.classList.add( 'faceExtroverted' );
+            //   // STICKER.
+            //   // You know, the color part that makes the Cube
+            //   // the most frustrating toy ever.
+            //   let stickerElement = document.createElement( 'div' );
+            //   stickerElement.classList.add( 'sticker' );
+            //   stickerElement.classList.add( color.name );
+            //   faceElement.appendChild( stickerElement );
+            //   // TEXT.
+            //   // One character per face, mostly for our branding.
+            //   let textElement = document.createElement( 'div' );
+            //   textElement.classList.add( 'text' );
+            //   textElement.innerText = i;
+            //   this.faces[ i ].text = textElement;
+            //   faceElement.appendChild( textElement );
         }
     }
     // Now that we've run through our colors[] Array
@@ -1263,18 +1237,18 @@ ERNO.Cubelet = function(cube, id, colors) {
         (this.faces[3].color ? this.faces[3].color.initial : '-') +
         (this.faces[4].color ? this.faces[4].color.initial : '-') +
         (this.faces[5].color ? this.faces[5].color.initial : '-')
-    // this.front.element.style.transform =	"rotateX(   0deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
-    // this.up.element.style.transform = 		"rotateX(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
-    // this.right.element.style.transform = 	"rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
-    // this.down.element.style.transform = 	"rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )";
-    // this.left.element.style.transform = 	"rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
-    // this.back.element.style.transform = 	"rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
-    // this.front.element.style.OTransform = this.front.element.style.MozTransform = 	this.front.element.style.WebkitTransform 	= this.front.element.style.transform;
-    // this.up.element.style.OTransform 	= this.up.element.style.MozTransform = 		this.up.element.style.WebkitTransform 		= this.up.element.style.transform;
-    // this.right.element.style.OTransform = this.right.element.style.MozTransform =	this.right.element.style.WebkitTransform 	= this.right.element.style.transform;
-    // this.down.element.style.OTransform 	= this.down.element.style.MozTransform = 	this.down.element.style.WebkitTransform 	= this.down.element.style.transform;
-    // this.left.element.style.OTransform 	= this.left.element.style.MozTransform = 	this.left.element.style.WebkitTransform 	= this.left.element.style.transform;
-    // this.back.element.style.OTransform 	= this.back.element.style.MozTransform = 	this.back.element.style.WebkitTransform 	= this.back.element.style.transform;
+    // this.front.element.style.transform = "rotateX(   0deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
+    // this.up.element.style.transform =   "rotateX(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
+    // this.right.element.style.transform =  "rotateY(  90deg ) translateZ( "+faceSpacing+"px ) rotateZ(   0deg )";
+    // this.down.element.style.transform =  "rotateX( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ(  90deg )";
+    // this.left.element.style.transform =  "rotateY( -90deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
+    // this.back.element.style.transform =  "rotateY( 180deg ) translateZ( "+faceSpacing+"px ) rotateZ( -90deg )";
+    // this.front.element.style.OTransform = this.front.element.style.MozTransform =  this.front.element.style.WebkitTransform  = this.front.element.style.transform;
+    // this.up.element.style.OTransform  = this.up.element.style.MozTransform =   this.up.element.style.WebkitTransform   = this.up.element.style.transform;
+    // this.right.element.style.OTransform = this.right.element.style.MozTransform = this.right.element.style.WebkitTransform  = this.right.element.style.transform;
+    // this.down.element.style.OTransform  = this.down.element.style.MozTransform =  this.down.element.style.WebkitTransform  = this.down.element.style.transform;
+    // this.left.element.style.OTransform  = this.left.element.style.MozTransform =  this.left.element.style.WebkitTransform  = this.left.element.style.transform;
+    // this.back.element.style.OTransform  = this.back.element.style.MozTransform =  this.back.element.style.WebkitTransform  = this.back.element.style.transform;
     // If this happens to be our logo-bearing Cubelet
     // we had better attach the logo to it!
     this.isStickerCubelet = this.front.color && this.front.color.name === 'white' && this.type === 'center'
@@ -1703,15 +1677,15 @@ ERNO.Slice = function(indices, cube) {
         return cube.cubelets[indices[index]]
     }
     // let displayInternalFaces = function( value ){
-    // 	cubelets
+    //  cubelets
     // }
-    //	Once we've performed a physical rotaion of a face or group, we need a way to remap the array of cubelets.
-    //	This method does just that. Given a subset of cubelets, an axis to rotate on and
-    //	an angle, it will shift the location of all cubelets that need changing.
+    // Once we've performed a physical rotaion of a face or group, we need a way to remap the array of cubelets.
+    // This method does just that. Given a subset of cubelets, an axis to rotate on and
+    // an angle, it will shift the location of all cubelets that need changing.
     this.rotateGroupMappingOnAxis = (function() {
-        // 	Here we pre-define a few properties.
-        //	We'll reuse the, so it's best to define them up front
-        //	to avoid allocating new memeory at runtime
+        //  Here we pre-define a few properties.
+        // We'll reuse the, so it's best to define them up front
+        // to avoid allocating new memeory at runtime
         let absAxis = new THREE.Vector3(),
             max = new THREE.Vector3(1.0, 1.0, 1.0),
             point = new THREE.Vector3(),
@@ -1725,30 +1699,30 @@ ERNO.Slice = function(indices, cube) {
             absAxis.copy(max)
             absAxis.sub(this.axis)
             let cubletsCopy = cube.cubelets.slice()
-            //	Get The rotation as a matrix
+            // Get The rotation as a matrix
             rotation.makeRotationAxis(this.axis, angle * -1)
             let i = indices.length,
                 cubelet
             while (i-- > 0) {
                 // For every cubelet ...
                 cubelet = cube.cubelets[indices[i]]
-                //	Get it's position and save it for later ...
+                // Get it's position and save it for later ...
                 point.set(cubelet.addressX, cubelet.addressY, cubelet.addressZ)
                 origin.copy(point)
-                //	Then rotate it about our axis.
+                // Then rotate it about our axis.
                 point.multiply(absAxis)
                     .applyMatrix4(rotation)
-                //	Flatten out any floating point rounding errors ...
+                // Flatten out any floating point rounding errors ...
                 point.x = Math.round(point.x)
                 point.y = Math.round(point.y)
                 point.z = Math.round(point.z)
-                //	rotate, and perform a mask-like operation.
+                // rotate, and perform a mask-like operation.
                 point.add(origin.multiply(this.axis))
                 point.add(max)
-                //	The cublet array is in a funny order, so invert some of the axes of from our new position
+                // The cublet array is in a funny order, so invert some of the axes of from our new position
                 point.y = 2 - point.y
                 point.z = 2 - point.z
-                //	Use the X,Y,Z to get a 3D index
+                // Use the X,Y,Z to get a 3D index
                 let address = point.z * 9 + point.y * 3 + point.x
                 cube.cubelets[cubelet.address] = cubletsCopy[address]
             }
@@ -1756,19 +1730,19 @@ ERNO.Slice = function(indices, cube) {
             for (i = 0; i < cube.cubelets.length; i++) {
                 cube.cubelets[i].setAddress(i)
             }
-            // 	Remapping the location of the cubelets is all well and good,
-            //	but we also need to reorientate each cubelets face so cubelet.front
-            //	is always pointing to the front.
+            //  Remapping the location of the cubelets is all well and good,
+            // but we also need to reorientate each cubelets face so cubelet.front
+            // is always pointing to the front.
             // Get the slices rotation
             rotation.makeRotationAxis(this.axis, angle)
             // For each cubelet..
             this.cubelets.forEach(function(cubelet) {
                 faceArray = []
-                //	iterate over it's faces.
+                // iterate over it's faces.
                 cubelet.faces.forEach(function(face, index) {
-                    //	Get it's normal vector
+                    // Get it's normal vector
                     point.copy(ERNO.Direction.getDirectionByName(face.normal).normal)
-                    //	Rotate it
+                    // Rotate it
                     point.applyMatrix4(rotation)
                     // console.log( face.normal, ERNO.Controls.getDirectionByNormal( point ).name );
                     // and find the index of the new direction and add it to the new array
@@ -1824,9 +1798,9 @@ ERNO.extend(ERNO.Slice.prototype, {
                 break
             }
         }
-        // 	We also need to calculate what axis this slice rotates on.
-        //	For example, the Right Slice (R) would rotate on the axis pointing to the right represented by the axis ( 1, 0, 0 )
-        //	similarly the Equator Slice (E) would rotate on the axis pointing straight up ( 0, 1, 0 )
+        //  We also need to calculate what axis this slice rotates on.
+        // For example, the Right Slice (R) would rotate on the axis pointing to the right represented by the axis ( 1, 0, 0 )
+        // similarly the Equator Slice (E) would rotate on the axis pointing straight up ( 0, 1, 0 )
         if (this.axis === undefined || this.axis.lengthSq() === 0) {
             let pointA = this.northEast.position.clone(),
                 pointB = this.southWest.position.clone(),
@@ -1903,8 +1877,8 @@ ERNO.extend(ERNO.Slice.prototype, {
         )
         return this
     },
-    //	Using the rotation we can physically rotate all our cubelets.
-    //	This can be used to partially of fully rotate a slice.
+    // Using the rotation we can physically rotate all our cubelets.
+    // This can be used to partially of fully rotate a slice.
     set rotation(radians) {
         if (this.ableToHideInternalFaces && this.cube.isFlagged('showingIntroverts') !== 0 && this.cube.hideInvisibleFaces) {
             let partialRotation = radians % (Math.PI * 0.5) !== 0
@@ -1927,10 +1901,10 @@ ERNO.extend(ERNO.Slice.prototype, {
                 }
             }
         }
-        //	Define a delta rotation matrix from the axis and angle
+        // Define a delta rotation matrix from the axis and angle
         this.matrix.makeRotationAxis(this.axis, radians)
         this.axis.rotation = radians
-        //	Iterate over the cubelets and update their relative matrices
+        // Iterate over the cubelets and update their relative matrices
         let l = this.indices.length,
             cubelet,
             m1 = new THREE.Matrix4()
@@ -2055,139 +2029,7 @@ ERNO.Fold.prototype.setText = function(text) {
         this.map[i].innerHTML = text.substr(i, 1)
     }
 }
-/*
-    PROJECTOR
-    Converts mouse coordinates into 3D and detects mouse interaction
-    --
-    @author Mark Lundin - http://www.mark-lundin.com
-*/
-ERNO.Projector = (function() {
-    //	The Cube Projector is a specialised class that detects mouse interaction.
-    //	It's designed specifically for cubic geometry, in that it makes assumptions
-    // that cannot be applied to other 3D geometry. This makes the performance faster
-    // than other more generalised mouse picking techniques.
-    return function(cube, domElement) {
-        let api,
-            screen,
-            viewProjectionMatrix = new THREE.Matrix4(),
-            inverseMatrix = new THREE.Matrix4(),
-            mouse = new THREE.Vector3(),
-            end = new THREE.Vector3(1, 1, 1),
-            normal = new THREE.Vector3(),
-            ray = new THREE.Ray(),
-            box = new THREE.Box3(),
-            sphere = new THREE.Sphere(),
-            projectionMatrixInverse = new THREE.Matrix4(),
-            unitCubeBoundingRadius = mouse.distanceTo(end)
-        //	Configure the bounding spehere and Axis Aligned Bounding Box dimensions.
-        box.min.set(-cube.size * 0.5, -cube.size * 0.5, -cube.size * 0.5)
-        box.max.set(cube.size * 0.5, cube.size * 0.5, cube.size * 0.5)
-        sphere.radius = unitCubeBoundingRadius * cube.size * 0.5
-        //	Utility function that unprojects 2D normalised screen coordinate to 3D.
-        //	Taken from Three.js Projector class
-        function unprojectVector(vector, camera) {
-            projectionMatrixInverse.getInverse(camera.projectionMatrix)
-            viewProjectionMatrix.multiplyMatrices(camera.matrixWorld, projectionMatrixInverse)
-            return vector.applyProjection(viewProjectionMatrix)
-        }
-        // Returns the bounding area of the element
-        function getBoundingClientRect(element) {
-            let bounds = element !== document ? element.getBoundingClientRect() : {
-                left: 0,
-                top: 0,
-                width: window.innerWidth,
-                height: window.innerHeight
-            }
-            if (element !== document) {
-                let d = element.ownerDocument.documentElement
-                bounds.left += window.pageXOffset - d.clientLeft
-                bounds.top += window.pageYOffset - d.clientTop
-            }
-            return bounds
-        }
-        /*
-            *	Returns a THREE.Ray instance in cube space!
-            */
-        function setRay(camera, mouseX, mouseY) {
-            //	Get the bounding area
-            screen = getBoundingClientRect(domElement)
-            //	Convert screen coords indo normalized device coordinate space
-            mouse.x = (mouseX - screen.left) / screen.width * 2 - 1
-            mouse.y = (mouseY - screen.top) / screen.height * -2 + 1
-            mouse.z = -1.0
-            // set two vectors with opposing z values
-            end.set(mouse.x, mouse.y, 1.0)
-            //	Unproject screen coordinates into 3D
-            unprojectVector(mouse, camera)
-            unprojectVector(end, camera)
-            // find direction from vector to end
-            end.sub(mouse).normalize()
-            //	Configure the ray caster
-            ray.set(mouse, end)
-            //	Apply the world inverse
-            inverseMatrix.getInverse(cube.matrixWorld)
-            ray.applyMatrix4(inverseMatrix)
-            return ray
-        }
-        /*
-            *	Given an intersection point on the surface of the cube,
-            * 	this returns a vector indicating the normal of the face
-            */
-        function getFaceNormalForIntersection(intersection, optionalTarget) {
-            let target = optionalTarget || new THREE.Vector3()
-            target.copy(intersection)
-                .set(Math.round(target.x), Math.round(target.y), Math.round(target.z))
-                .multiplyScalar(2 / cube.size)
-                .set(target.x | 0, target.y | 0, target.z | 0)
-            return normal
-        }
-        /*
-            *	Given a three.js camera instance and a 2D mouse coordinates local to the domElement,
-            * 	this method tests for any intersection against the cube
-            *	and returns a cubelet if one is found, otherwise it returns null indicating no intersection.
-            */
-        api = {
-            getIntersection: function(camera, mouseX, mouseY, optionalIntersectionTarget, optionalPlaneTarget) {
-                let intersection = optionalIntersectionTarget || new THREE.Vector3()
-                //	If we haven't detected any mouse movement, then we've not made interacted!
-                if (mouseX === null || mouseY === null) return null
-                //	Shoot the camera ray into 3D
-                setRay(camera, mouseX, mouseY)
-                //	Check ray casting against the bounding sphere first as it's easier to compute,
-                //	if it passes, then check the Axis Aligned Bounding Box.
-                if (ray.isIntersectionSphere(sphere) &&
-                    ray.intersectBox(box, intersection) !== null) {
-                    if (optionalPlaneTarget) {
-                        getFaceNormalForIntersection(intersection, normal)
-                        optionalPlaneTarget.setFromNormalAndCoplanarPoint(normal, intersection)
-                    }
-                    return intersection
-                }
-                return null
-            },
-            getIntersectionOnPlane: function(camera, mouseX, mouseY, plane, optionalTarget) {
-                //	If we haven't detected any mouse movement, then we've not interacted!
-                if (mouseX === null || mouseY === null) return null
-                //	Shoot the camera ray into 3D
-                setRay(camera, mouseX, mouseY)
-                return ray.intersectPlane(plane, optionalTarget)
-            },
-            // Given
-            getCubeletAtIntersection: (function() {
-                let tmp = new THREE.Vector3()
-                return function(intersection) {
-                    //	Translate the world coordinates to a 3D index of the intersected cubelets location.
-                    tmp.copy(intersection).add(box.max)
-                        .multiplyScalar(3 / cube.size)
-                        .set(Math.min(tmp.x | 0, 2), Math.min(3 - tmp.y | 0, 2), Math.min(3 - tmp.z | 0, 2))
-                    //	Translate the 3D position to an array index
-                    return cube.cubelets[tmp.z * 9 + tmp.y * 3 + tmp.x]
-                }
-            }())
-        }
-        return api
-    }
-}())
+
 /*
     INTERACTION
     This module handles all the user interactions with the cube.
@@ -2198,7 +2040,7 @@ ERNO.Projector = (function() {
 */
 ERNO.Interaction = (function() {
     return function(cube, camera, domElement, dragSpeed, multiDrag) {
-        //	A utility class for calculating mouse intersection on a cubic surface
+        // A utility class for calculating mouse intersection on a cubic surface
         let projector = new ERNO.Projector(cube, domElement)
         let intersected, points = [],
             intersection = new THREE.Vector3(),
@@ -2217,15 +2059,15 @@ ERNO.Interaction = (function() {
         current.y = undefined
         // API
         let api = {
-            //	A boolean indicating when the user is interacting
+            // A boolean indicating when the user is interacting
             active: false,
-            //	A boolean that turns on/off the api
+            // A boolean that turns on/off the api
             enabled: true,
-            //	A boolean flag that, when enabled, allows the user to drag a slice on it's other axis
+            // A boolean flag that, when enabled, allows the user to drag a slice on it's other axis
             multiDrag: multiDrag || false,
-            //	A boolean flag that, when enabled, allows the user to drag a slice on it's other axis
+            // A boolean flag that, when enabled, allows the user to drag a slice on it's other axis
             multiDragSnapArea: 100.0,
-            //	This sets the default drag speed.
+            // This sets the default drag speed.
             dragSpeed: dragSpeed || 1.3
         }
         // Apply event skills to the api
@@ -2254,8 +2096,8 @@ ERNO.Interaction = (function() {
                 return vector.applyProjection(viewProjectionMatrix)
             }
         }
-        //	This function provides a way to 'snap' a vector to it's closest axis.
-        //	This is used to find a probable axis of rotation when a user performs a drag
+        // This function provides a way to 'snap' a vector to it's closest axis.
+        // This is used to find a probable axis of rotation when a user performs a drag
         function snapVectorToBasis(vector) {
             let max = Math.max(Math.abs(vector.x), Math.abs(vector.y), Math.abs(vector.z))
             vector.x = (vector.x / max) | 0
@@ -2267,30 +2109,30 @@ ERNO.Interaction = (function() {
             let x = current.x,
                 y = current.y
             if (api.enabled && api.active && x !== undefined && y != undefined && (mouseX !== x || mouseY !== y)) {
-                //	As we already know what plane, or face, the interaction began on,
-                //	we can then find the point on the plane where the interaction continues.
+                // As we already know what plane, or face, the interaction began on,
+                // we can then find the point on the plane where the interaction continues.
                 projector.getIntersectionOnPlane(camera, x, y, plane, pointOnPlane)
                 direction.subVectors(pointOnPlane, intersection)
                 if (!axisDefined && direction.length() > 5 /*|| ( api.multiDrag && direction.length() < api.multiDragSnapArea ) */) {
-                    //	If we've already been rotating a slice but we want to change direction,
-                    //	for example if multiDrag is enabled, then we want to reset the original slice
+                    // If we've already been rotating a slice but we want to change direction,
+                    // for example if multiDrag is enabled, then we want to reset the original slice
                     if (slice) slice.rotation = 0
                     axisDefined = true
-                    //	Once we have a plane, we can figure out what direction the user dragged
-                    //	and lock into an axis of rotation
+                    // Once we have a plane, we can figure out what direction the user dragged
+                    // and lock into an axis of rotation
                     axis.crossVectors(plane.normal, direction)
-                    //	Of course, it's never a perfect gesture, so we should figure
-                    //	out the intended direction by snapping to the nearest axis.
+                    // Of course, it's never a perfect gesture, so we should figure
+                    // out the intended direction by snapping to the nearest axis.
                     snapVectorToBasis(axis)
-                    //	From the axis aligned vector, we can isolate the correct slice
-                    //	to rotate, by determining the index from the possible slices.
+                    // From the axis aligned vector, we can isolate the correct slice
+                    // to rotate, by determining the index from the possible slices.
                     slice = possibleSlices[Math.abs(axis.z * 3 + axis.y * 2 + axis.x) - 1]
                     // Determine the cross vector, or the direction relative to the axis we're rotating
                     cross.crossVectors(slice.axis, plane.normal).normalize()
                 }
                 if (axisDefined) {
-                    //	By now, we already know what axis to rotate on,
-                    //	we just need to figure out by how much.
+                    // By now, we already know what axis to rotate on,
+                    // we just need to figure out by how much.
                     direction.subVectors(pointOnPlane, intersection)
                     let dot = cross.dot(direction)
                     angle = dot / cube.size * api.dragSpeed
@@ -2304,30 +2146,30 @@ ERNO.Interaction = (function() {
                 mouseX = (event.touches && event.touches[0] || event).clientX
                 mouseY = (event.touches && event.touches[0] || event).clientY
                 // console.log( mouseX, mouseY );
-                //	Here we find out if the mouse is hovering over the cube,
-                //	If it is, then `intersection` is populated with the 3D local coordinates of where
-                //	the intersection occured. `plane` is also configured to represent the face of the cube
-                //	where the intersection occured. This is used later to determine the direction
-                //	of the drag.
-                //	( Note: although a plane is conceptually similar to a cube's face, the plane is a mathematical representation )
+                // Here we find out if the mouse is hovering over the cube,
+                // If it is, then `intersection` is populated with the 3D local coordinates of where
+                // the intersection occured. `plane` is also configured to represent the face of the cube
+                // where the intersection occured. This is used later to determine the direction
+                // of the drag.
+                // ( Note: although a plane is conceptually similar to a cube's face, the plane is a mathematical representation )
                 if (intersected = projector.getIntersection(camera, mouseX, mouseY, intersection, plane)) {
-                    //	If a interaction happens within the cube we should prevent the event bubbling.
+                    // If a interaction happens within the cube we should prevent the event bubbling.
                     // event.stopImmediatePropagation();
                     if (cube.isTweening() === 0) {
                         time = (typeof window !== "undefined" && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now())
                         api.active = true
-                        //	Now we know the point of intersection, we can figure out what the associated cubelet is ...
+                        // Now we know the point of intersection, we can figure out what the associated cubelet is ...
                         cubelet = projector.getCubeletAtIntersection(intersection)
-                        //	... and the possible slices that might be rotated. Remeber, we can only figure out the exact slice once a drag happens.
+                        // ... and the possible slices that might be rotated. Remeber, we can only figure out the exact slice once a drag happens.
                         possibleSlices = [cube.slices[cubelet.addressX + 1], cube.slices[cubelet.addressY + 4], cube.slices[cubelet.addressZ + 7]]
-                        //	Add a listener for interaction in the entire document.
+                        // Add a listener for interaction in the entire document.
                         document.addEventListener('mousemove', onInteractUpdate)
                         document.addEventListener('touchmove', onInteractUpdate)
-                        //	Add a lister to detect the end of interaction, remember this could happen outside the domElement, but still within the document
+                        // Add a lister to detect the end of interaction, remember this could happen outside the domElement, but still within the document
                         document.addEventListener('mouseup', onInteractEnd)
                         document.addEventListener('touchcancel', onInteractEnd)
                         document.addEventListener('touchend', onInteractEnd)
-                        //	Whilst interacting we can temporarily remove the listeners detecting the start of interaction
+                        // Whilst interacting we can temporarily remove the listeners detecting the start of interaction
                         document.removeEventListener('mousedown', onInteractStart)
                         document.removeEventListener('touchstart', onInteractStart)
                     }
@@ -2349,22 +2191,22 @@ ERNO.Interaction = (function() {
             let x = (event.touches && event.touches[0] || event).clientX,
                 y = (event.touches && event.touches[0] || event).clientY
             api.active = false
-            //	When a user has finished interating, we need to finish off any rotation.
-            //	We basically snap to the nearest face and issue a rotation command
+            // When a user has finished interating, we need to finish off any rotation.
+            // We basically snap to the nearest face and issue a rotation command
             if (api.enabled && (x !== mouseY || y !== mouseY) && axisDefined) {
                 // event.stopImmediatePropagation();
-                //	Now we can get the direction of rotation and the associated command.
+                // Now we can get the direction of rotation and the associated command.
                 let command = slice.name[0].toUpperCase()
-                // 	We then find the nearest rotation to snap to and calculate how long the rotation should take
-                //	based on the distance between our current rotation and the target rotation
+                //  We then find the nearest rotation to snap to and calculate how long the rotation should take
+                // based on the distance between our current rotation and the target rotation
                 let targetAngle = Math.round(angle / Math.PI * 0.5 * 4.0) * Math.PI * 0.5
                 let velocityOfInteraction = direction.length() / ((typeof window !== "undefined" && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now()) - time)
                 if (velocityOfInteraction > 0.3) {
                     targetAngle = Math.floor(angle / Math.PI * 0.5 * 4.0) * Math.PI * 0.5
                     targetAngle += cross.dot(direction.normalize()) > 0 ? Math.PI * 0.5 : 0
                 }
-                // 	If this is a partial rotation that results in the same configuration of cubelets
-                //	then it doesn't really count as a move, and we don't need to add it to the history
+                //  If this is a partial rotation that results in the same configuration of cubelets
+                // then it doesn't really count as a move, and we don't need to add it to the history
                 cube.twist(new ERNO.Twist(command, targetAngle.radiansToDegrees()))
                 // Delete the reference to our slice
             }
@@ -2418,14 +2260,14 @@ ERNO.Interaction = (function() {
     }
 }())
 
-//	This is a basic css renderer that uses a modified version of the three.js CSS3DRenderer.
-//	Having the renderer is a seperate file allows us to abstract all the visual components
-//	of the cube in a simple, straightforward way.
-//	THREE.JS HACK
-//	You can actually use a THREE.Object3D as a Scene like object
-//	and render it with the THREE.CSS3DRenderer. For projects with filesize restrictions,
-//	this is useful as it allows you to exclude the THREE.Scene and all it's dependancies entirely.
-//	The only caveat is that we need to temporarily define/re-define a dummy Scene object
+// This is a basic css renderer that uses a modified version of the three.js CSS3DRenderer.
+// Having the renderer is a seperate file allows us to abstract all the visual components
+// of the cube in a simple, straightforward way.
+// THREE.JS HACK
+// You can actually use a THREE.Object3D as a Scene like object
+// and render it with the THREE.CSS3DRenderer. For projects with filesize restrictions,
+// this is useful as it allows you to exclude the THREE.Scene and all it's dependancies entirely.
+// The only caveat is that we need to temporarily define/re-define a dummy Scene object
 let SceneType = THREE.Scene
 THREE.Scene = SceneType || function() { }
 ERNO.renderers = ERNO.renderers || {}
@@ -2437,7 +2279,7 @@ ERNO.renderers.CSS3D = function(cubelets, cube) {
     // Add the cube 3D object to the scene
     scene.add(cube.autoRotateObj3D)
     scene.add(cube.camera)
-    //	FACE LABELS
+    // FACE LABELS
     let faceLabel, axis = new THREE.Vector3()
     cube.faces.forEach(function(face, i) {
         faceLabel = cube[face.face].label = new THREE.CSS3DObject(document.createElement('div'))
@@ -2471,14 +2313,14 @@ ERNO.renderers.CSS3D = function(cubelets, cube) {
         this.showingFaceLabels = false
         return this
     }
-    //	CSS CUBELETS
-    //	Each ERNO.Cubelet is an abstract representation of a cubelet,
-    //	it has some useful information like a list of faces, but it doesn't have any visual component.
-    // 	Here we take the abstract cubelet and create something you can see.
-    //	First we add some functionality to the ERNO.Cubelet specific to css,
-    //	things like setOpacity, and showStickers directly affects css styles.
+    // CSS CUBELETS
+    // Each ERNO.Cubelet is an abstract representation of a cubelet,
+    // it has some useful information like a list of faces, but it doesn't have any visual component.
+    //  Here we take the abstract cubelet and create something you can see.
+    // First we add some functionality to the ERNO.Cubelet specific to css,
+    // things like setOpacity, and showStickers directly affects css styles.
     ERNO.extend(ERNO.Cubelet.prototype, ERNO.renderers.CSS3DCubelet.methods)
-    // 	Then we use the CSS3DCubelet function to create all the dom elements.
+    //  Then we use the CSS3DCubelet function to create all the dom elements.
     cubelets.forEach(ERNO.renderers.CSS3DCubelet)
     // RENDER LOOP
     function render() {
@@ -2526,7 +2368,7 @@ ERNO.renderers.CSS3DCubelet = (function() {
             'axisX',
             'axisZ',
         ]
-        //	CUBELET FACES
+        // CUBELET FACES
         // We're about to loop through our 6 faces
         // and create visual dom elements for each
         // Here's our overhead for that:
@@ -2603,8 +2445,8 @@ ERNO.renderers.CSS3DCubelet = (function() {
         cubelet.hideWireframes()
     }
 }())
-// 	The method object contains functionality specific to the CSS3D renderer that we add
-//	to the ERNO.Cubelet prototype
+//  The method object contains functionality specific to the CSS3D renderer that we add
+// to the ERNO.Cubelet prototype
 ERNO.renderers.CSS3DCubelet.methods = (function() {
     function showItem(item) {
         item.style.display = 'block'
@@ -2807,9 +2649,9 @@ ERNO.Cube = function(parameters) {
     this.mouseControlsEnabled = parameters.mouseControlsEnabled === undefined ? true : parameters.mouseControlsEnabled
     let renderFactory = parameters.renderer || ERNO.renderers.CSS3D
     // Some important booleans.
-    //	The textureSize sets the physical size of the cublets in pixels.
-    //	This is useful for rendering purposes as browsers don't downsample textures very well, nor is upsamlping
-    //	pretty either. In general, it's best to set the texture size to roughly the same size they'll appear on screen.
+    // The textureSize sets the physical size of the cublets in pixels.
+    // This is useful for rendering purposes as browsers don't downsample textures very well, nor is upsamlping
+    // pretty either. In general, it's best to set the texture size to roughly the same size they'll appear on screen.
     parameters.textureSize = parameters.textureSize === undefined ? 120 : parameters.textureSize
     this.isShuffling = false
     this.isReady = true
@@ -2818,10 +2660,10 @@ ERNO.Cube = function(parameters) {
     this.render = true
     this.finalShuffle = null
     this.hideInvisibleFaces = parameters.hideInvisibleFaces === undefined ? false : parameters.hideInvisibleFaces
-    //	The amount of time we've been running
+    // The amount of time we've been running
     this.time = 0
-    // 	We'll keep an record of the number of moves we've made
-    // 	Useful for keeping scores.
+    //  We'll keep an record of the number of moves we've made
+    //  Useful for keeping scores.
     this.moveCounter = 0
     // Every fire of this.loop() will attempt to complete our tasks
     // which can only be run if this.isReady === true.
@@ -2829,8 +2671,8 @@ ERNO.Cube = function(parameters) {
     // We need the ability to gang up twist commands.
     // Every fire of this.loop() will attempt to empty it.
     this.twistQueue = new ERNO.Queue(ERNO.Twist.validate)
-    //	Although we have a queue containing all our twists
-    //	we also need a way to collect any undo requests into a similar queue
+    // Although we have a queue containing all our twists
+    // we also need a way to collect any undo requests into a similar queue
     this.historyQueue = new ERNO.Queue(ERNO.Twist.validate)
     // How long should a Cube.twist() take?
     this.twistDuration = parameters.twistDuration !== undefined ? parameters.twistDuration : 500
@@ -2839,7 +2681,7 @@ ERNO.Cube = function(parameters) {
     // Size matters? Cubelets will attempt to read these values.
     this.size = parameters.textureSize * 3
     this.cubeletSize = this.size / 3
-    //	To display our cube, we'll need some 3D specific attributes, like a camera
+    // To display our cube, we'll need some 3D specific attributes, like a camera
     let
         FIELD_OF_VIEW = 35,
         WIDTH = window.innerWidth,
@@ -2849,9 +2691,9 @@ ERNO.Cube = function(parameters) {
         FAR = 6000
     this.camera = new THREE.PerspectiveCamera(FIELD_OF_VIEW, ASPECT_RATIO, NEAR, FAR)
     this.camera.position.z = this.size * 4
-    //	To do all the things normaly associated with a 3D object
-    //	we'll need to borrow a few properties from Three.js.
-    //	Things like position rotation and orientation.
+    // To do all the things normaly associated with a 3D object
+    // we'll need to borrow a few properties from Three.js.
+    // Things like position rotation and orientation.
     this.object3D = new THREE.Object3D()
     this.autoRotateObj3D = new THREE.Object3D()
     this.rotation = this.object3D.rotation
@@ -2911,8 +2753,8 @@ ERNO.Cube = function(parameters) {
         if (cubelet.type === 'corner') this.corners.add(cubelet)
         if (cubelet.type === 'center' || cubelet.type === 'edge') this.crosses.add(cubelet)
     }.bind(this))
-    //	Now we'll create some slices. A slice represents a 3x3 grid of cubelets.
-    //	Slices are Groups with purpose; they are rotate-able!
+    // Now we'll create some slices. A slice represents a 3x3 grid of cubelets.
+    // Slices are Groups with purpose; they are rotate-able!
     // Slices that can rotate about the X-axis:
     this.left = new ERNO.Slice(
         [24, 21, 18,
@@ -2979,7 +2821,7 @@ ERNO.Cube = function(parameters) {
     // Faces .... special kind of Slice!
     this.faces = [this.front, this.up, this.right, this.down, this.left, this.back]
     this.slices = [this.left, this.middle, this.right, this.down, this.equator, this.up, this.back, this.standing, this.front]
-    // 	We also probably want a handle on any update events that occur, for example, when a slice is rotated
+    //  We also probably want a handle on any update events that occur, for example, when a slice is rotated
     let onSliceRotated = function(evt) {
         this.dispatchEvent(new CustomEvent('onTwistComplete', { detail: { slice: evt.target } }))
     }.bind(this)
@@ -2998,11 +2840,11 @@ ERNO.Cube = function(parameters) {
         'r': this.right,
         'm': this.middle,
         'l': this.left,
-        //	Here we defined some arbitrary groups.
-        //	Technically they're not really slices in the usual sense,
-        //	there are however a few things about slices that we need,
-        //	like the ability to rotate about an axis, therefore for all
-        //	intents and purposes, we'll call them a slice
+        // Here we defined some arbitrary groups.
+        // Technically they're not really slices in the usual sense,
+        // there are however a few things about slices that we need,
+        // like the ability to rotate about an axis, therefore for all
+        // intents and purposes, we'll call them a slice
         'x': new ERNO.Slice(allIndices, this),
         'y': new ERNO.Slice(allIndices, this),
         'z': new ERNO.Slice(allIndices, this)
@@ -3014,8 +2856,8 @@ ERNO.Cube = function(parameters) {
     this.slicesDictionary.x.ableToHideInternalFaces = false
     this.slicesDictionary.y.ableToHideInternalFaces = false
     this.slicesDictionary.z.ableToHideInternalFaces = false
-    //	For the x,y and z groups we've defined above,
-    //	we'll need to manually set an axis since once can't be automatically computed
+    // For the x,y and z groups we've defined above,
+    // we'll need to manually set an axis since once can't be automatically computed
     this.slicesDictionary.x.axis.set(-1, 0, 0)
     this.slicesDictionary.y.axis.set(0, -1, 0)
     this.slicesDictionary.z.axis.set(0, 0, -1)
@@ -3023,25 +2865,25 @@ ERNO.Cube = function(parameters) {
     this.cubelets.forEach(function(cubelet, i) {
         cubelet.setAddress(i)
     })
-    // 	RENDERER
-    //	Create a renderer object from the renderer factory.
-    // 	The renderFactory is a function that creates a renderer object
+    //  RENDERER
+    // Create a renderer object from the renderer factory.
+    //  The renderFactory is a function that creates a renderer object
     this.renderer = renderFactory(this.cubelets, this)
     this.domElement = this.renderer.domElement
     this.domElement.classList.add('cube')
     this.domElement.style.fontSize = this.cubeletSize + 'px'
     this.autoRotateObj3D.add(this.object3D)
     if (this.hideInvisibleFaces) this.hideIntroverts(null, true)
-    //	The Interaction class provides all the nifty mouse picking stuff.
-    //	It's responsible for figuring out what cube slice is supposed to rotate
-    //	and in what direction.
+    // The Interaction class provides all the nifty mouse picking stuff.
+    // It's responsible for figuring out what cube slice is supposed to rotate
+    // and in what direction.
     this.mouseInteraction = new ERNO.Interaction(this, this.camera, this.domElement)
     this.mouseInteraction.addEventListener('click', function(evt) {
         this.dispatchEvent(new CustomEvent("click", { detail: evt.detail }))
     }.bind(this))
-    //	set up interactive controls
-    //	The Controls class rotates the entire cube around using an arcball implementation.
-    //	You could override this with a different style of control
+    // set up interactive controls
+    // The Controls class rotates the entire cube around using an arcball implementation.
+    // You could override this with a different style of control
     this.controls = new (parameters.controls || ERNO.Controls)(this, this.camera, this.domElement)
     // We need to map our folds separately from Cube.map()
     // because we only want folds mapped at creation time.
@@ -3055,15 +2897,15 @@ ERNO.Cube = function(parameters) {
     // this.setText( 'BEYONDRUBIKs  CUBE', 0 );
     // this.setText( 'BEYONDRUBIKs  CUBE', 1 );
     // this.setText( 'BEYONDRUBIKs  CUBE', 2 );
-    // 	Define a default size for our cube, this will be resized to 100%
-    //	of it's containing dom element during the render.
+    //  Define a default size for our cube, this will be resized to 100%
+    // of it's containing dom element during the render.
     this.setSize(400, 200)
     // Get ready for major loop-age.
     // Our Cube checks these booleans at 60fps.
     this.loop = this.loop.bind(this)
     requestAnimationFrame(this.loop)
-    //	The cube needs to respond to user interaction and react accordingly.
-    //	We'll set up a few event below to listen for specific commands,
+    // The cube needs to respond to user interaction and react accordingly.
+    // We'll set up a few event below to listen for specific commands,
     // Enable key commands for our Cube.
     document.addEventListener('keypress', function(event) {
         if (event.target.tagName.toLowerCase() !== 'input' &&
@@ -3079,18 +2921,18 @@ ERNO.Cube.prototype = Object.create(ERNO.Group.prototype)
 ERNO.Cube.prototype.constructor = ERNO.Cube
 ERNO.extend(ERNO.Cube.prototype, {
     shuffle: function(amount, sequence) {
-        //	How many times should we shuffle?
+        // How many times should we shuffle?
         amount = amount || 30
-        //	Optional sequence of moves to execute instead of picking
-        //	random moves from this.shuffleMethod.
+        // Optional sequence of moves to execute instead of picking
+        // random moves from this.shuffleMethod.
         sequence = sequence || ''
         let moves = this.shuffleMethod.slice(),
             move, inverseOfLastMove = new ERNO.Twist(), allowedMoves,
             sequenceLength = sequence.length, sequenceIndex = 0
-        //	We're shuffling the cube so we should clear any history
+        // We're shuffling the cube so we should clear any history
         this.twistQueue.empty(true)
         this.historyQueue.empty(true)
-        //	Create some random rotations based on our shuffle method
+        // Create some random rotations based on our shuffle method
         while (amount-- > 0) {
             if (sequence) {
                 move.set(sequence[sequenceIndex])
@@ -3099,22 +2941,22 @@ ERNO.extend(ERNO.Cube.prototype, {
                 // Create a copy of all possible moves
                 allowedMoves = moves.split('')
                 move = new ERNO.Twist().copy(inverseOfLastMove)
-                //	We don't want to chose a move that reverses the last shuffle, it just looks odd,
-                //	so we should only select a move if it's a new one.
+                // We don't want to chose a move that reverses the last shuffle, it just looks odd,
+                // so we should only select a move if it's a new one.
                 while (move.equals(inverseOfLastMove)) {
                     move.set(allowedMoves.splice(Math.floor(Math.random() * allowedMoves.length), 1)[0])
                 }
             }
-            //	If we flag this move as a shuffle, then we can remove it from the history
-            //	once we've executed it.
+            // If we flag this move as a shuffle, then we can remove it from the history
+            // once we've executed it.
             move.isShuffle = true
-            //	execute the shuffle
+            // execute the shuffle
             this.twist(move)
-            //	Store a reference to the reverse of the move ( a twist that undoes the shuffle )
+            // Store a reference to the reverse of the move ( a twist that undoes the shuffle )
             inverseOfLastMove = move.getInverse()
         }
-        //	By stashing the last move in our shuffle sequence, we can
-        // 	later check if the shuffling is complete
+        // By stashing the last move in our shuffle sequence, we can
+        //  later check if the shuffling is complete
         this.finalShuffle = move
     },
     solve: function() {
@@ -3157,7 +2999,7 @@ ERNO.extend(ERNO.Cube.prototype, {
                 twist.degrees, 'degrees.'
             )
         }
-        // 	We now need to find the slice to rotate and figure out how much we need to rotate it by.
+        //  We now need to find the slice to rotate and figure out how much we need to rotate it by.
         let slice = this.slicesDictionary[twist.command.toLowerCase()],
             rotation = (twist.degrees === undefined ? 90 : twist.degrees) * twist.vector,
             radians = rotation.degreesToRadians(),
@@ -3167,7 +3009,7 @@ ERNO.extend(ERNO.Cube.prototype, {
         while (l-- > 0) {
             slice.getCubelet(l).isTweening = true
         }
-        //	Boom! Rotate a slice
+        // Boom! Rotate a slice
         new TWEEN.Tween(slice)
             .to({
                 rotation: radians
@@ -3184,7 +3026,7 @@ ERNO.extend(ERNO.Cube.prototype, {
                     cubelet.updateMatrix()
                     cubelet.matrixSlice.copy(cubelet.matrix)
                 }
-                //	If the rotation changes the cube then we should update the cubelet mapping
+                // If the rotation changes the cube then we should update the cubelet mapping
                 if (rotation !== 0) {
                     slice.rotateGroupMappingOnAxis(radians)
                     // Also, since everythings changed, we might aswell tell everyone
@@ -3195,7 +3037,7 @@ ERNO.extend(ERNO.Cube.prototype, {
                         }
                     }))
                 }
-                //	If we're on the final twist of a shuffle
+                // If we're on the final twist of a shuffle
                 if (twist === this.finalShuffle) {
                     this.finalShuffle = null
                     this.dispatchEvent(new CustomEvent('onShuffleComplete', {
@@ -3249,12 +3091,12 @@ ERNO.extend(ERNO.Cube.prototype, {
         let time = 0
         return function() {
             requestAnimationFrame(this.loop)
-            //	Kick off the next animation frame
+            // Kick off the next animation frame
             let localTime = (typeof window !== "undefined" && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now())
             let frameDelta = localTime - (time || localTime)
             time = localTime
             if (!this.paused) {
-                //	Update the internal animation frame
+                // Update the internal animation frame
                 this.time += frameDelta
                 TWEEN.update(this.time)
                 if (this.autoRotate) {

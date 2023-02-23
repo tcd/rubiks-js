@@ -1,4 +1,4 @@
-import type { Quaternion } from "./Quaternion"
+import { Quaternion } from "./Quaternion"
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -16,7 +16,12 @@ export class Euler {
     public static DefaultOrder: string = "XYZ"
     public static RotationOrders = ["XYZ", "YZX", "ZXY", "XZY", "YXZ", "ZYX"]
 
-    constructor(x: number, y: number, z: number, order: string) {
+    constructor(
+        x = 0,
+        y = 0,
+        z = 0,
+        order = Euler.DefaultOrder,
+    ) {
         this._x = x || 0
         this._y = y || 0
         this._z = z || 0
@@ -226,7 +231,7 @@ export class Euler {
 
     // WARNING(bhouston): this discards revolution information
     reorder(newOrder) {
-        const q = new THREE.Quaternion()
+        const q = new Quaternion()
         q.setFromEuler(this)
         this.setFromQuaternion(q, newOrder)
     }

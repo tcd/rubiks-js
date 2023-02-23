@@ -1,8 +1,8 @@
 /**
- * @author alteredq / http://alteredqualia.com/
- * @author mrdoob / http://mrdoob.com/
+ * @author [alteredq](http://alteredqualia.com/)
+ * @author [mrdoob](http://mrdoob.com/)
  */
-const THREE_Math = {
+export const ThreeMath = {
     PI2: Math.PI * 2,
     generateUUID: function() {
         // http://www.broofa.com/Tools/Math.uuid.htm

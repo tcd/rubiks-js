@@ -1,6 +1,9 @@
 import { Euler } from "./Euler"
+import { ThreeMath } from "./Math"
 import { Matrix4 } from "./Matrix4"
 import { Quaternion } from "./Quaternion"
+import { Scene } from "./Scene"
+import { THREE } from "./THREE"
 import { Vector3 } from "./Vector3"
 
 /**
@@ -35,22 +38,22 @@ export class Object3D {
 
     constructor() {
         this.id = THREE.Object3DIdCount++
-        this.uuid = THREE.Math.generateUUID()
+        this.uuid = ThreeMath.generateUUID()
         this.name = ""
         this.parent = undefined
         this.children = []
-        this.up = new THREE.Vector3(0, 1, 0)
-        this.position = new THREE.Vector3()
-        this._rotation = new THREE.Euler()
-        this._quaternion = new THREE.Quaternion()
-        this.scale = new THREE.Vector3(1, 1, 1)
+        this.up = new Vector3(0, 1, 0)
+        this.position = new Vector3()
+        this._rotation = new Euler()
+        this._quaternion = new Quaternion()
+        this.scale = new Vector3(1, 1, 1)
         // keep rotation and quaternion in sync
         this._rotation._quaternion = this.quaternion
         this._quaternion._euler = this.rotation
         this.renderDepth = null
         this.rotationAutoUpdate = true
-        this.matrix = new THREE.Matrix4()
-        this.matrixWorld = new THREE.Matrix4()
+        this.matrix = new Matrix4()
+        this.matrixWorld = new Matrix4()
         this.matrixAutoUpdate = true
         this.matrixWorldNeedsUpdate = true
         this.visible = true
@@ -165,17 +168,17 @@ export class Object3D {
     }
 
     translateX(distance) {
-        const v1 = new THREE.Vector3(1, 0, 0)
+        const v1 = new Vector3(1, 0, 0)
         return this.translateOnAxis(v1, distance)
     }
 
     translateY(distance) {
-        const v1 = new THREE.Vector3(0, 1, 0)
+        const v1 = new Vector3(0, 1, 0)
         return this.translateOnAxis(v1, distance)
     }
 
     translateZ(distance) {
-        const v1 = new THREE.Vector3(0, 0, 1)
+        const v1 = new Vector3(0, 0, 1)
         return this.translateOnAxis(v1, distance)
     }
 
@@ -184,13 +187,13 @@ export class Object3D {
     }
 
     worldToLocal(vector) {
-        const m1 = new THREE.Matrix4()
+        const m1 = new Matrix4()
         return vector.applyMatrix4(m1.getInverse(this.matrixWorld))
     }
 
     // This routine does not support objects with rotated and/or translated parent(s)
     lookAt(vector) {
-        const m1 = new THREE.Matrix4()
+        const m1 = new Matrix4()
         m1.lookAt(vector, this.position, this.up)
         this.quaternion.setFromRotationMatrix(m1)
     }
@@ -200,7 +203,7 @@ export class Object3D {
             console.warn("THREE.Object3D.add: An object can't be added as a child of itself.")
             return
         }
-        if (object instanceof THREE.Object3D) {
+        if (object instanceof Object3D) {
             if (object.parent !== undefined) {
                 object.parent.remove(object)
             }
@@ -212,7 +215,7 @@ export class Object3D {
             while (scene.parent !== undefined) {
                 scene = scene.parent
             }
-            if (scene !== undefined && scene instanceof THREE.Scene) {
+            if (scene !== undefined && scene instanceof Scene) {
                 scene.__addObject(object)
             }
         }
@@ -229,7 +232,7 @@ export class Object3D {
             while (scene.parent !== undefined) {
                 scene = scene.parent
             }
-            if (scene !== undefined && scene instanceof THREE.Scene) {
+            if (scene !== undefined && scene instanceof Scene) {
                 scene.__removeObject(object)
             }
         }
@@ -310,8 +313,8 @@ export class Object3D {
         }
     }
 
-    clone(object, recursive) {
-        if (object === undefined) object = new THREE.Object3D()
+    clone(object, recursive = undefined) {
+        if (object === undefined) object = new Object3D()
         if (recursive === undefined) recursive = true
         object.name = this.name
         object.up.copy(this.up)

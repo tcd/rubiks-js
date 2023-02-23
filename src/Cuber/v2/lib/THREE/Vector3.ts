@@ -321,7 +321,7 @@ export class Vector3 {
         this.z += (v.z - this.z) * alpha
         return this
     }
-    cross(v, w) {
+    cross(v, w = undefined) {
         if (w !== undefined) {
             console.warn("DEPRECATED: Vector3's .cross() now only accepts one argument. Use .crossVectors( a, b ) instead.")
             return this.crossVectors(v, w)

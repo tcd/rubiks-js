@@ -10,7 +10,7 @@ export class Sphere {
     public center
     public radius
 
-    constructor(center, radius) {
+    constructor(center = undefined, radius = undefined) {
         this.center = (center !== undefined) ? center : new Vector3()
         this.radius = (radius !== undefined) ? radius : 0
     }
@@ -62,7 +62,7 @@ export class Sphere {
 
     clampPoint(point, optionalTarget) {
         const deltaLengthSq = this.center.distanceToSquared(point)
-        const result = optionalTarget || new THREE.Vector3()
+        const result = optionalTarget || new Vector3()
         result.copy(point)
         if (deltaLengthSq > (this.radius * this.radius)) {
             result.sub(this.center).normalize()
@@ -72,7 +72,7 @@ export class Sphere {
     }
 
     getBoundingBox(optionalTarget) {
-        const box = optionalTarget || new THREE.Box3()
+        const box = optionalTarget || new Box3()
         box.set(this.center, this.center)
         box.expandByScalar(this.radius)
         return box
@@ -94,8 +94,6 @@ export class Sphere {
     }
 
     clone() {
-        return new THREE.Sphere().copy(this)
+        return new Sphere().copy(this)
     }
-
-
 }

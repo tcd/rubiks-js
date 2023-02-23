@@ -14,7 +14,12 @@ export class Quaternion {
     public _w: any
     public _euler: Euler
 
-    constructor(x = 0, y = 0, z = 0, w = 0) {
+    constructor(
+        x = 0,
+        y = 0,
+        z = 0,
+        w = 0,
+    ) {
         this._x = x || 0
         this._y = y || 0
         this._z = z || 0
@@ -94,7 +99,7 @@ export class Quaternion {
         return this
     }
 
-    public setFromEuler(euler: Euler, update: boolean) {
+    public setFromEuler(euler: Euler, update: boolean = undefined) {
         if (euler instanceof Euler === false) {
             throw new Error("ERROR: Quaternion's .setFromEuler() now expects a Euler rotation rather than a Vector3 and order.  Please update your code.")
         }

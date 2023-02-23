@@ -1,3 +1,5 @@
+import { Euler } from "./Euler"
+import { ThreeMath } from "./Math"
 import { Vector3 } from "./Vector3"
 
 /**
@@ -16,14 +18,43 @@ export class Matrix4 {
 
     public elements
 
-    constructor(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
+    constructor(
+        n11 = 1,
+        n12 = 0,
+        n13 = 0,
+        n14 = 0,
+        n21 = 0,
+        n22 = 1,
+        n23 = 0,
+        n24 = 0,
+        n31 = 0,
+        n32 = 0,
+        n33 = 1,
+        n34 = 0,
+        n41 = 0,
+        n42 = 0,
+        n43 = 0,
+        n44 = 1,
+    ) {
         this.elements = new Float32Array(16)
         // TODO: if n11 is undefined, then just set to identity, otherwise copy all other values into matrix we should not support semi specification of Matrix4, it is just weird.
         const te = this.elements
-        te[0] = (n11 !== undefined) ? n11 : 1; te[4] = n12 || 0; te[8] = n13 || 0; te[12] = n14 || 0
-        te[1] = n21 || 0; te[5] = (n22 !== undefined) ? n22 : 1; te[9] = n23 || 0; te[13] = n24 || 0
-        te[2] = n31 || 0; te[6] = n32 || 0; te[10] = (n33 !== undefined) ? n33 : 1; te[14] = n34 || 0
-        te[3] = n41 || 0; te[7] = n42 || 0; te[11] = n43 || 0; te[15] = (n44 !== undefined) ? n44 : 1
+        te[0] = (n11 !== undefined) ? n11 : 1
+        te[1] = n21 || 0
+        te[2] = n31 || 0
+        te[3] = n41 || 0
+        te[4] = n12 || 0
+        te[5] = (n22 !== undefined) ? n22 : 1
+        te[6] = n32 || 0
+        te[7] = n42 || 0
+        te[8] = n13 || 0
+        te[9] = n23 || 0
+        te[10] = (n33 !== undefined) ? n33 : 1
+        te[11] = n43 || 0
+        te[12] = n14 || 0
+        te[13] = n24 || 0
+        te[14] = n34 || 0
+        te[15] = (n44 !== undefined) ? n44 : 1
     }
 
     set(n11, n12, n13, n14, n21, n22, n23, n24, n31, n32, n33, n34, n41, n42, n43, n44) {
@@ -65,7 +96,7 @@ export class Matrix4 {
     }
 
     extractRotation(m) {
-        const v1 = new THREE.Vector3()
+        const v1 = new Vector3()
         const te = this.elements
         const me = m.elements
         const scaleX = 1 / v1.set(me[0], me[1], me[2]).length()
@@ -83,8 +114,8 @@ export class Matrix4 {
         return this
     }
 
-    makeRotationFromEuler(euler) {
-        if (euler instanceof THREE.Euler === false) {
+    makeRotationFromEuler(euler: Euler) {
+        if (euler instanceof Euler === false) {
             console.error("ERROR: Matrix's .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.  Please update your code.")
         }
         const te = this.elements
@@ -294,7 +325,7 @@ export class Matrix4 {
     }
 
     multiplyVector3Array(a) {
-        const v1 = new THREE.Vector3()
+        const v1 = new Vector3()
         for (let i = 0, il = a.length; i < il; i += 3) {
             v1.x = a[i]
             v1.y = a[i + 1]
@@ -404,7 +435,7 @@ export class Matrix4 {
     }
 
     getPosition() {
-        const v1 = new THREE.Vector3()
+        const v1 = new Vector3()
         console.warn("DEPRECATED: Matrix4's .getPosition() has been removed. Use Vector3.setFromMatrixPosition( matrix ) instead.")
         const te = this.elements
         return v1.set(te[12], te[13], te[14])
@@ -418,7 +449,7 @@ export class Matrix4 {
         return this
     }
 
-    getInverse(m, throwOnInvertible) {
+    getInverse(m, throwOnInvertible = false) {
         // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
         const te = this.elements
         const me = m.elements
@@ -445,7 +476,7 @@ export class Matrix4 {
         const det = n11 * te[0] + n21 * te[4] + n31 * te[8] + n41 * te[12]
         if (det == 0) {
             const msg = "Matrix4.getInverse(): can't invert matrix, determinant is 0"
-            if (throwOnInvertible || false) {
+            if (!!throwOnInvertible) {
                 throw new Error(msg)
             } else {
                 console.warn(msg)
@@ -572,8 +603,8 @@ export class Matrix4 {
     }
 
     decompose(position, quaternion, scale) {
-        const vector = new THREE.Vector3()
-        const matrix = new THREE.Matrix4()
+        const vector = new Vector3()
+        const matrix = new Matrix4()
         const te = this.elements
         let sx = vector.set(te[0], te[1], te[2]).length()
         const sy = vector.set(te[4], te[5], te[6]).length()
@@ -622,7 +653,7 @@ export class Matrix4 {
     }
 
     makePerspective(fov, aspect, near, far) {
-        const ymax = near * Math.tan(THREE.Math.degToRad(fov * 0.5))
+        const ymax = near * Math.tan(ThreeMath.degToRad(fov * 0.5))
         const ymin = - ymax
         const xmin = ymin * aspect
         const xmax = ymax * aspect
@@ -661,7 +692,7 @@ export class Matrix4 {
 
     clone() {
         const te = this.elements
-        return new THREE.Matrix4(
+        return new Matrix4(
             te[0], te[4], te[8], te[12],
             te[1], te[5], te[9], te[13],
             te[2], te[6], te[10], te[14],
