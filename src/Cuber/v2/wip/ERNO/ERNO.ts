@@ -1,4 +1,4 @@
-const ERNO = {
+export const ERNO = {
     extend: function (obj, source) {
         // ECMAScript5 compatibility based on: http://www.nczonline.net/blog/2012/12/11/are-your-mixins-ecmascript-5-compatible/
         if (Object.keys) {
