@@ -1,0 +1,45 @@
+{
+    "TS Ignore": {
+        "prefix": "tsignore",
+        "body": [
+            "// @ts-ignore: next-line",
+        ],
+    },
+    "Import Statement": {
+        "prefix": "import",
+        "body": [
+            "import { $0 } from \"$1\"",
+        ],
+    },
+    "New Component with Props": {
+        "prefix": [
+            // "component",
+            "componentwithprops",
+        ],
+        "body": [
+            "export type ${1:name}Props = {",
+            // "${2:\t}",
+            "\t",
+            "}",
+            "",
+            "export const ${1:name} = (props: ${1:name}Props): JSX.Element => {",
+            "\treturn (",
+            "\t\t${0:<></>}",
+            "\t)",
+            "}",
+        ],
+    },
+    "New Component without Props": {
+        "prefix": [
+            // "component",
+            "componentnoprops",
+        ],
+        "body": [
+            "export const ${1:name} = (): JSX.Element => {",
+            "\treturn (",
+            "\t\t<>$0</>",
+            "\t)",
+            "}",
+        ],
+    },
+}
