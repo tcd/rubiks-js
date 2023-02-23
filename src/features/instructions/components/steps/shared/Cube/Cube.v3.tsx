@@ -87,15 +87,15 @@ export const Cube = (props: CubeProps): JSX.Element => {
                         className="right"
                         fill={CubeColors.red}
                     >
-                        <path className="r1" d="M 77,87 101,77 102,45 77,55" />
-                        <path className="r2" d="M 126,36 125,66 104,76 105,45" />
-                        <path className="r3" d="M 147,27 146,56 128,65 129,35" />
-                        <path className="r4" d="M 77,122 100,110 101,81 77,91" />
-                        <path className="r5" d="M 125,70 124,98 103,109 104,80" />
-                        <path className="r6" d="M 146,60 145,87 127,97 128,69" />
-                        <path className="r7" d="M 77,153 99,141 100,114 77,126" />
-                        <path className="r8" d="M 124,102 123,128 102,140 103,113" />
-                        <path className="r9" d="M 145,90 144,116 126,126 127,100" />
+                        <Path className="r1" commands={[["M", [[ 77,  87], [101,  77], [102,  45], [ 77,  55]]]]} />
+                        <Path className="r2" commands={[["M", [[126,  36], [125,  66], [104,  76], [105,  45]]]]} />
+                        <Path className="r3" commands={[["M", [[147,  27], [146,  56], [128,  65], [129,  35]]]]} />
+                        <Path className="r4" commands={[["M", [[ 77, 122], [100, 110], [101,  81], [ 77,  91]]]]} />
+                        <Path className="r5" commands={[["M", [[125,  70], [124,  98], [103, 109], [104,  80]]]]} />
+                        <Path className="r6" commands={[["M", [[146,  60], [145,  87], [127,  97], [128,  69]]]]} />
+                        <Path className="r7" commands={[["M", [[ 77, 153], [ 99, 141], [100, 114], [ 77, 126]]]]} />
+                        <Path className="r8" commands={[["M", [[124, 102], [123, 128], [102, 140], [103, 113]]]]} />
+                        <Path className="r9" commands={[["M", [[145,  90], [144, 116], [126, 126], [127, 100]]]]} />
                     </G>
                 </G>
             </Svg>
