@@ -7,7 +7,6 @@ class Config implements IConfig {
     public NODE_ENV: NodeEnv
     public APP_VERSION: string
 
-
     constructor() {
         this.NODE_ENV = env.NODE_ENV
         this.APP_VERSION = env.APP_VERSION

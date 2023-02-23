@@ -9,7 +9,7 @@
  * Cuber is a programmable Rubik's cube of sorts.
  *
  * Made with love by:
- * @author Mark Lundin - http://mark-lundin.com / @mark_lundin
+ * @author [Mark Lundin - http://mark-lundin.com](@mark_lundin)
  * @author Stewart Smith - stewd.io
  * @author Google Creative Lab
  *
@@ -79,17 +79,17 @@ ERNO.extend = function(obj, source) {
 }
 
 /**
- * @author sole / http://soledadpenades.com
- * @author mrdoob / http://mrdoob.com
- * @author Robert Eisele / http://www.xarg.org
- * @author Philippe / http://philippe.elsass.me
- * @author Robert Penner / http://www.robertpenner.com/easing_terms_of_use.html
- * @author Paul Lewis / http://www.aerotwist.com/
+ * @author [sole](http://soledadpenades.com)
+ * @author [mrdoob](http://mrdoob.com)
+ * @author [Robert Eisele](http://www.xarg.org)
+ * @author [Philippe](http://philippe.elsass.me)
+ * @author [Robert Penner](http://www.robertpenner.com/easing_terms_of_use.html)
+ * @author [Paul Lewis](http://www.aerotwist.com/)
  * @author lechecacharro
- * @author Josh Faul / http://jocafa.com/
- * @author egraether / http://egraether.com/
- * @author endel / http://endel.me
- * @author Ben Delarre / http://delarre.net
+ * @author [Josh Faul](http://jocafa.com/)
+ * @author [egraether](http://egraether.com/)
+ * @author [endel](http://endel.me)
+ * @author [Ben Delarre](http://delarre.net)
  */
 // Date.now shim for (ahem) Internet Explo(d|r)er
 if (Date.now === undefined) {
@@ -268,12 +268,6 @@ TWEEN.Tween = function(object) {
     }
 }
 
-/**
- * @author mrdoob / http://mrdoob.com/
- * @author Larry Battle / http://bateru.com/news
- * @author bhouston / http://exocortex.com
- */
-let THREE: any = { REVISION: "66" }
 self.console = self.console || {
     info: function() { },
     log: function() { },
@@ -311,9 +305,9 @@ self.console = self.console || {
 THREE.EventDispatcher.prototype.apply(THREE.Object3D.prototype)
 THREE.Object3DIdCount = 0
 /**
- * @author mrdoob / http://mrdoob.com/
- * @author mikael emtinger / http://gomo.se/
- * @author WestLangley / http://github.com/WestLangley
+ * @author [mrdoob](http://mrdoob.com/)
+ * @author [mikael emtinger](http://gomo.se/)
+ * @author [WestLangley](http://github.com/WestLangley)
 */
 THREE.Camera = function() {
     THREE.Object3D.call(this)
@@ -337,9 +331,9 @@ THREE.Camera.prototype.clone = function(camera) {
     return camera
 }
 /**
- * @author mrdoob / http://mrdoob.com/
- * @author greggman / http://games.greggman.com/
- * @author zz85 / http://www.lab4games.net/zz85/blog
+ * @author [mrdoob](http://mrdoob.com/)
+ * @author [greggman](http://games.greggman.com/)
+ * @author [zz85](http://www.lab4games.net/zz85/blog)
  */
 THREE.PerspectiveCamera = function(fov, aspect, near, far) {
     THREE.Camera.call(this)
@@ -435,7 +429,7 @@ THREE.PerspectiveCamera.prototype.clone = function() {
     return camera
 }
 /**
- * @author bhouston / http://exocortex.com
+ * @author [bhouston](http://exocortex.com)
  */
 THREE.Ray = function(origin, direction) {
     this.origin = (origin !== undefined) ? origin : new THREE.Vector3()
@@ -710,7 +704,7 @@ THREE.Ray.prototype = {
     }
 }
 /**
- * @author bhouston / http://exocortex.com
+ * @author [bhouston](http://exocortex.com)
  */
 THREE.Plane = function(normal, constant) {
     this.normal = (normal !== undefined) ? normal : new THREE.Vector3(1, 0, 0)
@@ -833,8 +827,8 @@ THREE.Plane.prototype = {
 }
 /**
  * Based on http://www.emagix.net/academic/mscs-project/item/camera-sync-with-css3-and-webgl-threejs
- * @author mrdoob / http://mrdoob.com/
- * @author mark lundin / http://mark-lundin.com
+ * @author [mrdoob](http://mrdoob.com/)
+ * @author [mark lundin](http://mark-lundin.com)
  *
  *	This is slightly modified CSS Renderer that sets the object transform as individual translate, scale and rotate.
     * 	The reason for this is that the transformation using matrix3d do not scale correctly under browser zoom.
