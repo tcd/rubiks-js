@@ -67,6 +67,8 @@
  * @author Stewart Smith
  */
 export class Cube {
+    cubeletSize: number
+    object3D: any
 
     constructor() {
     }

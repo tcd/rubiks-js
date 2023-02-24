@@ -1,3 +1,5 @@
+import { Vector3 } from "../THREE/Vector3"
+
 /**
  * # DIRECTIONS
  *
@@ -77,12 +79,11 @@ export class Direction {
         this.opposite = null
     }
 
-    public setRelationships(up, right, down, left, opposite) {
-        this.neighbors = [up, right, down, left]
-        this.opposite = opposite
-    }
+    // =========================================================================
+    // Static
+    // =========================================================================
 
-    public getNameById(id) {
+    public static getNameById(id: string) {
         return [
             "front",
             "up",
@@ -93,7 +94,7 @@ export class Direction {
         ][id]
     }
 
-    public getIdByName(name) {
+    public static getIdByName(name: number) {
         return {
             front: 0,
             up:    1,
@@ -104,7 +105,7 @@ export class Direction {
         }[name]
     }
 
-    public getDirectionById(id: number): Direction {
+    public static getDirectionById(id: number): Direction {
         return [
             DIRECTIONS.FRONT,
             DIRECTIONS.UP,
@@ -115,7 +116,7 @@ export class Direction {
         ][id]
     }
 
-    getDirectionByInitial(initial: string): Direction {
+    public static getDirectionByInitial(initial: string): Direction {
         return {
             F: DIRECTIONS.FRONT,
             U: DIRECTIONS.UP,
@@ -126,7 +127,7 @@ export class Direction {
         }[initial.toUpperCase()]
     }
 
-    getDirectionByName(name: string): Direction {
+    public static getDirectionByName(name: string): Direction {
         return {
             front: DIRECTIONS.FRONT,
             up:    DIRECTIONS.UP,
@@ -137,8 +138,8 @@ export class Direction {
         }[name.toLowerCase()]
     }
 
-    public getDirectionByNormal(normal) {
-        const vector = new THREE.Vector3()
+    public static getDirectionByNormal(normal) {
+        const vector = new Vector3()
         //	Flatten out any floating point roundingerrors ...
         vector.x = Math.round(normal.x)
         vector.y = Math.round(normal.y)
@@ -150,6 +151,15 @@ export class Direction {
                         vector.equals(DIRECTIONS.LEFT.normal) ? DIRECTIONS.LEFT :
                             vector.equals(DIRECTIONS.RIGHT.normal) ? DIRECTIONS.RIGHT :
                                 null
+    }
+
+    // =========================================================================
+    // Instance
+    // =========================================================================
+
+    public setRelationships(up, right, down, left, opposite) {
+        this.neighbors = [up, right, down, left]
+        this.opposite = opposite
     }
 
     /**
@@ -216,13 +226,13 @@ export class Direction {
  * Create facing directions as global constants this way we can access from
  * anywhere in any scope without big long names full of dots and stuff.
  */
-const DIRECTIONS = {
-    FRONT:  new Direction(0, "front", new THREE.Vector3(0, 0, 1)),
-    UP:     new Direction(1, "up",    new THREE.Vector3(0, 1, 0)),
-    RIGHT:  new Direction(2, "right", new THREE.Vector3(1, 0, 0)),
-    DOWN:   new Direction(3, "down",  new THREE.Vector3(0, -1, 0)),
-    LEFT:   new Direction(4, "left",  new THREE.Vector3(-1, 0, 0)),
-    BACK:   new Direction(5, "back",  new THREE.Vector3(0, 0, -1)),
+export const DIRECTIONS = {
+    FRONT:  new Direction(0, "front", new Vector3(0, 0, 1)),
+    UP:     new Direction(1, "up",    new Vector3(0, 1, 0)),
+    RIGHT:  new Direction(2, "right", new Vector3(1, 0, 0)),
+    DOWN:   new Direction(3, "down",  new Vector3(0, -1, 0)),
+    LEFT:   new Direction(4, "left",  new Vector3(-1, 0, 0)),
+    BACK:   new Direction(5, "back",  new Vector3(0, 0, -1)),
 }
 
 // Now that they all exist we can
