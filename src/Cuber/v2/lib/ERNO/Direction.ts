@@ -83,7 +83,7 @@ export class Direction {
     // Static
     // =========================================================================
 
-    public static getNameById(id: string) {
+    public static getNameById(id: number) {
         return [
             "front",
             "up",

@@ -1067,7 +1067,7 @@ ERNO.extend(Array.prototype, {
     Slices are thin layers sliced out of the Cube
     composed of 9 Cubelets (3x3 grid).
     The position of these Cubelets can be mapped as follows:
-        ----------- ----------- -----------
+         ----------- ----------- -----------
         |           |           |           |
         | northWest |   north   | northEast |
         |     0     |     1     |     2     |
@@ -1082,7 +1082,7 @@ ERNO.extend(Array.prototype, {
         | southWest |   south   | southEast |
         |     6     |     7     |     8     |
         |           |           |           |
-        ----------- ----------- -----------
+         ----------- ----------- -----------
     The cubelets[] Array is mapped to names for convenience:
         0  === this.northWest
         1  === this.north

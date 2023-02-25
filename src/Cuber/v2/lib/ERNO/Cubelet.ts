@@ -1,5 +1,7 @@
 import { Matrix4 } from "../THREE/Matrix4"
 import { Object3D } from "../THREE/Object3D"
+import { _ } from "../_"
+import { Color } from "./Color"
 import { Cube } from "./Cube"
 import { ERNO } from "./ERNO"
 
@@ -56,6 +58,7 @@ export class Cubelet extends Object3D {
     public size: number
     public matrixSlice
     public faces
+    address
     addressX: number
     addressY: number
     addressZ: number
@@ -74,7 +77,7 @@ export class Cubelet extends Object3D {
     opacity: number
     radius: number
 
-    constructor(cube: Cube, id = 0, colors) {
+    constructor(cube: Cube, id = 0, colors: Color[] = undefined) {
         super()
         // Our Cube can directly address its Cubelet children,
         // only fair the Cubelet can address their parent Cube!
@@ -118,7 +121,15 @@ export class Cubelet extends Object3D {
         // to build the six faces of our Cubelet.
         // Here's our overhead for that:
         let extrovertedFaces = 0
-        if (colors === undefined) colors = [W, O, , , G]
+        if (colors === undefined) {
+            colors = [
+                ERNO.WHITE,
+                ERNO.ORANGE,
+                undefined,
+                undefined,
+                ERNO.GREEN,
+            ]
+        }
         this.faces = []
         // Now let's map one color per side based on colors[].
         // Undefined values are allowed (and anticipated).
@@ -258,8 +269,100 @@ export class Cubelet extends Object3D {
         this.opacity = 1
         this.radius = 0
     }
-    setAddress(id: any) {
-        throw new Error("Method not implemented.")
+
+    // Aside from initialization this function will be called
+    // by the Cube during remapping.
+    // The raw address is an integer from 0 through 26
+    // mapped to the Cube in the same fashion as this.id.
+    // The X, Y, and Z components each range from -1 through +1
+    // where (0, 0, 0) is the Cube's core.
+    setAddress(address) {
+        this.address = address || 0
+        this.addressX = address.modulo(3).subtract(1)
+        this.addressY = address.modulo(9).divide(3).roundDown().subtract(1) * -1
+        this.addressZ = address.divide(9).roundDown().subtract(1) * -1
     }
 
+    // Does this Cubelet contain a certain color?
+    // If so, return a String decribing what face that color is on.
+    // Otherwise return false.
+    hasColor(color) {
+        let i
+        let face
+        let faceColorRGB
+        const colorRGB = _.hexToRgb(color.hex)
+        for (i = 0; i < 6; i++) {
+            faceColorRGB = _.hexToRgb(this.faces[i].color.hex)
+            if (faceColorRGB.r === colorRGB.r && faceColorRGB.g === colorRGB.g && faceColorRGB.b === colorRGB.b) {
+                face = i
+                break
+            }
+        }
+        if (face !== undefined) {
+            return [
+                "front",
+                "up",
+                "right",
+                "down",
+                "left",
+                "back",
+            ][face]
+        }
+        else return false
+    }
+
+    // Similar to above, but accepts an arbitrary number of colors.
+    // This function implies AND rather than OR, XOR, etc.
+    hasColors(...colors) {
+        let result = true
+        colors.forEach((color) => {
+            result = result && !!this.hasColor(color)
+        })
+        return result
+    }
+
+    getRadius() {
+        return this.radius
+    }
+
+    setRadius(radius, onComplete) {
+        // @@
+        // It's a shame that we can't do this whilst tweening
+        // but it's because the current implementation is altering the actual X, Y, Z
+        // rather than the actual radius. Can fix later.
+        // Current may produce unexpected results while shuffling. For example:
+        //   cube.corners.setRadius( 90 )
+        // may cause only 4 corners instead of 6 to setRadius()
+        // because one side is probably engaged in a twist tween.
+        if (this.isTweening === false) {
+            radius = radius || 0
+            if (this.radius === undefined) this.radius = 0
+            if (this.radius !== radius) {
+                // Here's some extra cuteness to make the tween's duration
+                // proportional to the distance traveled.
+                // let tweenDuration = ( this.radius - radius ).absolute().scale( 0, 100, 0, 1000 )
+                this.isTweening = true
+                const tweenDuration = (this.radius - radius).absolute(),
+                    obj = { radius: this.radius }
+                new TWEEN.Tween(obj)
+                    .to({ radius: radius }, tweenDuration)
+                    .easing(TWEEN.Easing.Quartic.Out)
+                    .onUpdate(function() {
+                        this.position.set(this.addressX.multiply(this.size + obj.radius) + 0.2, this.addressY.multiply(this.size + obj.radius) + 0.2, this.addressZ.multiply(this.size + obj.radius) + 0.2)
+                        this.updateMatrix()
+                        this.matrixSlice.copy(this.matrix)
+                        this.radius = obj.radius
+                    }.bind(this))
+                    .onComplete(function() {
+                        this.isTweening = false
+                        this.position.set(this.addressX.multiply(this.size + obj.radius) + 0.2, this.addressY.multiply(this.size + obj.radius) + 0.2, this.addressZ.multiply(this.size + obj.radius) + 0.2)
+                        this.updateMatrix()
+                        this.matrixSlice.copy(this.matrix)
+                        this.radius = obj.radius
+                        if (onComplete instanceof Function) onComplete()
+                    }.bind(this))
+                    .start(this.cube.time)
+            }
+        }
+    }
 }
