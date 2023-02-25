@@ -23,10 +23,8 @@ export class Camera extends Object3D {
         this.quaternion.setFromRotationMatrix(m1)
     }
 
-    public clone(camera: Camera) {
-        if (camera === undefined) {
-            camera = new Camera()
-        }
+    public clone(camera: Camera = undefined) {
+        camera ||= new Camera()
         super.clone(camera)
         camera.matrixWorldInverse.copy(this.matrixWorldInverse)
         camera.projectionMatrix.copy(this.projectionMatrix)

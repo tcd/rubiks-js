@@ -1,4 +1,5 @@
 import { Euler } from "./Euler"
+import { EventDispatcher } from "./EventDispatcher"
 import { ThreeMath } from "./Math"
 import { Matrix4 } from "./Matrix4"
 import { Quaternion } from "./Quaternion"
@@ -12,7 +13,7 @@ import { Vector3 } from "./Vector3"
  * @author [alteredq](http://alteredqualia.com/)
  * @author [WestLangley](http://github.com/WestLangley)
  */
-export class Object3D {
+export class Object3D extends EventDispatcher {
 
     public id: number
     public uuid: string
@@ -37,6 +38,7 @@ export class Object3D {
     public userData: any
 
     constructor() {
+        super()
         this.id = THREE.Object3DIdCount++
         this.uuid = ThreeMath.generateUUID()
         this.name = ""
@@ -67,92 +69,92 @@ export class Object3D {
         return this._rotation
     }
 
-    set rotation(value) {
+    public set rotation(value) {
         this._rotation = value
         this._rotation._quaternion = this._quaternion
         this._quaternion._euler = this._rotation
         this._rotation._updateQuaternion()
     }
 
-    get quaternion() {
+    public get quaternion() {
         return this._quaternion
     }
 
-    set quaternion(value) {
+    public set quaternion(value) {
         this._quaternion = value
         this._quaternion._euler = this._rotation
         this._rotation._quaternion = this._quaternion
         this._quaternion._updateEuler()
     }
 
-    get eulerOrder() {
+    public get eulerOrder() {
         console.warn("DEPRECATED: Object3D's .eulerOrder has been moved to Object3D's .rotation.order.")
         return this.rotation.order
     }
 
-    set eulerOrder(value) {
+    public set eulerOrder(value) {
         console.warn("DEPRECATED: Object3D's .eulerOrder has been moved to Object3D's .rotation.order.")
         this.rotation.order = value
     }
 
-    get useQuaternion() {
+    public get useQuaternion() {
         console.warn("DEPRECATED: Object3D's .useQuaternion has been removed. The library now uses quaternions by default.")
         return undefined
     }
 
-    set useQuaternion(value) {
+    public set useQuaternion(_value) {
         console.warn("DEPRECATED: Object3D's .useQuaternion has been removed. The library now uses quaternions by default.")
     }
 
-    applyMatrix(matrix) {
+    public applyMatrix(matrix) {
         this.matrix.multiplyMatrices(matrix, this.matrix)
         this.matrix.decompose(this.position, this.quaternion, this.scale)
     }
 
-    setRotationFromAxisAngle(axis, angle) {
-        // assumes axis is normalized
+    // assumes axis is normalized
+    public setRotationFromAxisAngle(axis, angle) {
         this.quaternion.setFromAxisAngle(axis, angle)
     }
 
-    setRotationFromEuler(euler) {
+    public setRotationFromEuler(euler) {
         this.quaternion.setFromEuler(euler, true)
     }
 
-    setRotationFromMatrix(m) {
-        // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
+    // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
+    public setRotationFromMatrix(m) {
         this.quaternion.setFromRotationMatrix(m)
     }
 
-    setRotationFromQuaternion(q) {
-        // assumes q is normalized
+    // assumes q is normalized
+    public setRotationFromQuaternion(q) {
         this.quaternion.copy(q)
     }
 
-    rotateOnAxis(axis, angle) {
-        // rotate object on axis in object space
-        // axis is assumed to be normalized
+    // rotate object on axis in object space
+    // axis is assumed to be normalized
+    public rotateOnAxis(axis, angle) {
         const q1 = new Quaternion()
         q1.setFromAxisAngle(axis, angle)
         this.quaternion.multiply(q1)
         return this
     }
 
-    rotateX(angle) {
+    public rotateX(angle) {
         const v1 = new Vector3(1, 0, 0)
         return this.rotateOnAxis(v1, angle)
     }
 
-    rotateY(angle) {
+    public rotateY(angle) {
         const v1 = new Vector3(0, 1, 0)
         return this.rotateOnAxis(v1, angle)
     }
 
-    rotateZ(angle) {
+    public rotateZ(angle) {
         const v1 = new Vector3(0, 0, 1)
         return this.rotateOnAxis(v1, angle)
     }
 
-    translateOnAxis(axis, distance) {
+    public translateOnAxis(axis, distance) {
         // translate object by distance along axis in object space
         // axis is assumed to be normalized
         const v1 = new Vector3()
@@ -162,43 +164,43 @@ export class Object3D {
         return this
     }
 
-    translate(distance, axis) {
+    public translate(distance, axis) {
         console.warn("DEPRECATED: Object3D's .translate() has been removed. Use .translateOnAxis( axis, distance ) instead. Note args have been changed.")
         return this.translateOnAxis(axis, distance)
     }
 
-    translateX(distance) {
+    public translateX(distance) {
         const v1 = new Vector3(1, 0, 0)
         return this.translateOnAxis(v1, distance)
     }
 
-    translateY(distance) {
+    public translateY(distance) {
         const v1 = new Vector3(0, 1, 0)
         return this.translateOnAxis(v1, distance)
     }
 
-    translateZ(distance) {
+    public translateZ(distance) {
         const v1 = new Vector3(0, 0, 1)
         return this.translateOnAxis(v1, distance)
     }
 
-    localToWorld(vector) {
+    public localToWorld(vector) {
         return vector.applyMatrix4(this.matrixWorld)
     }
 
-    worldToLocal(vector) {
+    public worldToLocal(vector) {
         const m1 = new Matrix4()
         return vector.applyMatrix4(m1.getInverse(this.matrixWorld))
     }
 
     // This routine does not support objects with rotated and/or translated parent(s)
-    lookAt(vector) {
+    public lookAt(vector) {
         const m1 = new Matrix4()
         m1.lookAt(vector, this.position, this.up)
         this.quaternion.setFromRotationMatrix(m1)
     }
 
-    add(object) {
+    public add(object) {
         if (object === this) {
             console.warn("THREE.Object3D.add: An object can't be added as a child of itself.")
             return
@@ -221,7 +223,7 @@ export class Object3D {
         }
     }
 
-    remove(object) {
+    public remove(object) {
         const index = this.children.indexOf(object)
         if (index !== - 1) {
             object.parent = undefined
@@ -238,14 +240,14 @@ export class Object3D {
         }
     }
 
-    traverse(callback) {
+    public traverse(callback) {
         callback(this)
         for (let i = 0, l = this.children.length; i < l; i++) {
             this.children[i].traverse(callback)
         }
     }
 
-    getObjectById(id, recursive) {
+    public getObjectById(id, recursive) {
         for (let i = 0, l = this.children.length; i < l; i++) {
             let child = this.children[i]
             if (child.id === id) {
@@ -261,7 +263,7 @@ export class Object3D {
         return undefined
     }
 
-    getObjectByName(name, recursive) {
+    public getObjectByName(name, recursive) {
         for (let i = 0, l = this.children.length; i < l; i++) {
             let child = this.children[i]
             if (child.name === name) {
@@ -277,12 +279,12 @@ export class Object3D {
         return undefined
     }
 
-    getChildByName(name, recursive) {
+    public getChildByName(name, recursive) {
         console.warn("DEPRECATED: Object3D's .getChildByName() has been renamed to .getObjectByName().")
         return this.getObjectByName(name, recursive)
     }
 
-    getDescendants(array) {
+    public getDescendants(array) {
         if (array === undefined) array = []
         Array.prototype.push.apply(array, this.children)
         for (let i = 0, l = this.children.length; i < l; i++) {
@@ -291,12 +293,12 @@ export class Object3D {
         return array
     }
 
-    updateMatrix() {
+    public updateMatrix() {
         this.matrix.compose(this.position, this.quaternion, this.scale)
         this.matrixWorldNeedsUpdate = true
     }
 
-    updateMatrixWorld(force) {
+    public updateMatrixWorld(force) {
         if (this.matrixAutoUpdate === true) this.updateMatrix()
         if (this.matrixWorldNeedsUpdate === true || force === true) {
             if (this.parent === undefined) {
@@ -313,7 +315,7 @@ export class Object3D {
         }
     }
 
-    clone(object, recursive = undefined) {
+    public clone(object, recursive = undefined) {
         if (object === undefined) object = new Object3D()
         if (recursive === undefined) recursive = true
         object.name = this.name
