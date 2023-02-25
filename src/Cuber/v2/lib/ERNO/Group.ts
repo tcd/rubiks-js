@@ -21,7 +21,7 @@ export class Group extends EventDispatcher {
         this.add(...cubeletsToAdd)
     }
 
-    add(...cubeletsToAdd) {
+    public add(...cubeletsToAdd) {
         cubeletsToAdd.forEach((cubelet) => {
             if (cubelet instanceof Group) {
                 cubelet = cubelet.cubelets
@@ -35,7 +35,7 @@ export class Group extends EventDispatcher {
         return this
     }
 
-    remove(cubeletToRemove) {
+    public remove(cubeletToRemove) {
         if (cubeletToRemove instanceof Group) cubeletToRemove = cubeletToRemove.cubelets
         if (cubeletToRemove instanceof Array) {
             cubeletToRemove.forEach((c) => {
@@ -54,7 +54,7 @@ export class Group extends EventDispatcher {
     // Boolean checker.
     // Are any Cubelets in this group tweening?
     // Engaged on the Z axis? Etc.
-    isFlagged(property) {
+    public isFlagged(property) {
         let count = 0
         this.cubelets.forEach(function(cubelet) {
             count += cubelet[property] ? 1 : 0
@@ -62,23 +62,12 @@ export class Group extends EventDispatcher {
         return count
     }
 
-    isTweening() {
-        return this.isFlagged("isTweening")
-    }
+    public isTweening() { return this.isFlagged("isTweening") }
+    public isEngagedX() { return this.isFlagged("isEngagedX") }
+    public isEngagedY() { return this.isFlagged("isEngagedY") }
+    public isEngagedZ() { return this.isFlagged("isEngagedZ") }
 
-    isEngagedX() {
-        return this.isFlagged("isEngagedX")
-    }
-
-    isEngagedY() {
-        return this.isFlagged("isEngagedY")
-    }
-
-    isEngagedZ() {
-        return this.isFlagged("isEngagedZ")
-    }
-
-    isEngaged() {
+    public isEngaged() {
         return this.isEngagedX() + this.isEngagedY() + this.isEngagedZ()
     }
 
@@ -86,49 +75,55 @@ export class Group extends EventDispatcher {
     // What Cubelets in this Group have a particular color?
     // How about all of these three colors?
     // And index? address? Solver uses these a lot.
-    hasProperty(property, value) {
-        const
-            results = new Group()
-        this.cubelets.forEach(function(cubelet) {
-            if (cubelet[property] === value) results.add(cubelet)
+    public hasProperty(property, value) {
+        const results = new Group()
+        this.cubelets.forEach((cubelet) => {
+            if (cubelet[property] === value) {
+                results.add(cubelet)
+            }
         })
         return results
     }
 
-    hasId(id) {
+    public hasId(id) {
         return this.hasProperty("id", id)
     }
 
-    hasAddress(address) {
+    public hasAddress(address) {
         return this.hasProperty("address", address)
     }
 
-    hasType(type) {
+    public hasType(type) {
         return this.hasProperty("type", type)
     }
 
-    hasColor(color) {
+    public hasColor(color) {
         const
             results = new Group()
-        this.cubelets.forEach(function(cubelet) {
-            if (cubelet.hasColor(color)) results.add(cubelet)
+        this.cubelets.forEach((cubelet) => {
+            if (cubelet.hasColor(color)) {
+                results.add(cubelet)
+            }
         })
         return results
     }
 
-    // this function implies AND rather than OR, XOR, etc.
-    hasColors(...colors) {
+    /**
+     * this function implies AND rather than OR, XOR, etc.
+     */
+    public hasColors(...colors) {
         const results = new Group()
         this.cubelets.forEach((cubelet) => {
-            // eslint-disable-next-line prefer-spread
-            if (cubelet.hasColors.apply(cubelet, colors)) results.add(cubelet)
+            if (cubelet.hasColors(...colors)) {
+                results.add(cubelet)
+            }
         })
         return results
     }
 
-    // cube.slices.front.isSolved( 'front' )
-    // cube.slices.front.up.isSolved( 'up' )
-    isSolved(face) {
+    // cube.slices.front.isSolved("front")
+    // cube.slices.front.up.isSolved("up")
+    public isSolved(face = undefined) {
         if (face) {
             const faceColors = {}
             let numberOfColors = 0
@@ -149,110 +144,111 @@ export class Group extends EventDispatcher {
         }
     }
 
-    // Visual switches.
-    // Take this group and hide all the stickers,
-    // turn on wireframe mode, etc.
-    show() {
-        this.cubelets.forEach(function(cubelet) { cubelet.show() })
+    // =========================================================================
+    // Visual switches
+    //
+    // Take this group and hide all the stickers, turn on wireframe mode, etc.
+    // =========================================================================
+
+    public show() {
+        this.cubelets.forEach((cubelet) => cubelet.show())
         return this
     }
 
-    hide() {
-        this.cubelets.forEach(function(cubelet) { cubelet.hide() })
+    public hide() {
+        this.cubelets.forEach((cubelet) => cubelet.hide())
         return this
     }
 
-    showPlastics() {
-        this.cubelets.forEach(function(cubelet) { cubelet.showPlastics() })
+    public showPlastics() {
+        this.cubelets.forEach((cubelet) => cubelet.showPlastics())
         return this
     }
 
-    hidePlastics() {
-        this.cubelets.forEach(function(cubelet) { cubelet.hidePlastics() })
+    public hidePlastics() {
+        this.cubelets.forEach((cubelet) => cubelet.hidePlastics())
         return this
     }
 
-    showExtroverts() {
-        this.cubelets.forEach(function(cubelet) { cubelet.showExtroverts() })
+    public showExtroverts() {
+        this.cubelets.forEach((cubelet) => cubelet.showExtroverts())
         return this
     }
 
-    hideExtroverts() {
-        this.cubelets.forEach(function(cubelet) { cubelet.hideExtroverts() })
+    public hideExtroverts() {
+        this.cubelets.forEach((cubelet) => cubelet.hideExtroverts())
         return this
     }
 
-    showIntroverts(only, soft) {
-        this.cubelets.forEach(function(cubelet) { cubelet.showIntroverts(only, soft) })
+    public showIntroverts(only, soft) {
+        this.cubelets.forEach((cubelet) => cubelet.showIntroverts(only, soft))
         return this
     }
 
-    hideIntroverts(only, soft) {
-        this.cubelets.forEach(function(cubelet) { cubelet.hideIntroverts(only, soft) })
+    public hideIntroverts(only, soft) {
+        this.cubelets.forEach((cubelet) => cubelet.hideIntroverts(only, soft))
         return this
     }
 
-    showStickers() {
-        this.cubelets.forEach(function(cubelet) { cubelet.showStickers() })
+    public showStickers() {
+        this.cubelets.forEach((cubelet) => cubelet.showStickers())
         return this
     }
 
-    hideStickers() {
-        this.cubelets.forEach(function(cubelet) { cubelet.hideStickers() })
+    public hideStickers() {
+        this.cubelets.forEach((cubelet) => cubelet.hideStickers())
         return this
     }
 
-    showWireframes() {
-        this.cubelets.forEach(function(cubelet) { cubelet.showWireframes() })
+    public showWireframes() {
+        this.cubelets.forEach((cubelet) => cubelet.showWireframes())
         return this
     }
 
-    hideWireframes() {
-        this.cubelets.forEach(function(cubelet) { cubelet.hideWireframes() })
+    public hideWireframes() {
+        this.cubelets.forEach((cubelet) => cubelet.hideWireframes())
         return this
     }
 
-    showIds() {
-        this.cubelets.forEach(function(cubelet) { cubelet.showIds() })
+    public showIds() {
+        this.cubelets.forEach((cubelet) => cubelet.showIds())
         return this
     }
 
-    hideIds() {
-        this.cubelets.forEach(function(cubelet) { cubelet.hideIds() })
+    public hideIds() {
+        this.cubelets.forEach((cubelet) => cubelet.hideIds())
         return this
     }
 
-    showTexts() {
-        this.cubelets.forEach(function(cubelet) { cubelet.showTexts() })
+    public showTexts() {
+        this.cubelets.forEach((cubelet) => cubelet.showTexts())
         return this
     }
 
-    hideTexts() {
-        this.cubelets.forEach(function(cubelet) { cubelet.hideTexts() })
+    public hideTexts() {
+        this.cubelets.forEach((cubelet) => cubelet.hideTexts())
         return this
     }
 
-    getOpacity() {
+    public getOpacity() {
         let avg = 0
-        this.cubelets.forEach(function(cubelet) { avg += cubelet.getOpacity() })
+        this.cubelets.forEach((cubelet) => avg += cubelet.getOpacity())
         return avg / this.cubelets.length
     }
 
-    setOpacity(opacity, onComplete) {
-        this.cubelets.forEach(function(cubelet) { cubelet.setOpacity(opacity, onComplete) })
+    public setOpacity(opacity, onComplete) {
+        this.cubelets.forEach((cubelet) => cubelet.setOpacity(opacity, onComplete))
         return this
     }
 
-    getRadius() {
+    public getRadius() {
         let avg = 0
-        this.cubelets.forEach(function(cubelet) { avg += cubelet.getRadius() })
+        this.cubelets.forEach((cubelet) => avg += cubelet.getRadius())
         return avg / this.cubelets.length
     }
 
-    setRadius(radius, onComplete) {
-        this.cubelets.forEach(function(cubelet) { cubelet.setRadius(radius, onComplete) })
+    public setRadius(radius, onComplete) {
+        this.cubelets.forEach((cubelet) => cubelet.setRadius(radius, onComplete))
         return this
     }
-
-
 }
