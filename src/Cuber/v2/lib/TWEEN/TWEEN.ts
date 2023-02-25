@@ -28,7 +28,9 @@ export class TWEEN {
     }
 
     public update(time) {
-        if (this._tweens.length === 0) return false
+        if (this._tweens.length === 0) {
+            return false
+        }
         let i = 0
         time = time !== undefined ? time : (typeof window !== "undefined" && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now())
         while (i < this._tweens.length) {
@@ -40,5 +42,4 @@ export class TWEEN {
         }
         return true
     }
-
 }

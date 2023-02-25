@@ -344,7 +344,7 @@ export class Cubelet extends Object3D {
                 this.isTweening = true
                 const tweenDuration = (this.radius - radius).absolute(),
                     obj = { radius: this.radius }
-                new TWEEN.Tween(obj)
+                new Tween(obj)
                     .to({ radius: radius }, tweenDuration)
                     .easing(TWEEN.Easing.Quartic.Out)
                     .onUpdate(function() {
