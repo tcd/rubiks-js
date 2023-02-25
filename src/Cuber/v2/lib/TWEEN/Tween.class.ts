@@ -16,180 +16,196 @@ export class Tween {
     public _startTime
     public _easingFunction: number
     public _interpolationFunction
-    public _chainedTweens: unknown[]
-    public _onStartCallback
+    public _chainedTweens: Tween[]
     public _onStartCallbackFired: boolean
-    public _onUpdateCallback
-    public _onCompleteCallback
+    public _onStartCallback: Function
+    public _onUpdateCallback: Function
+    public _onCompleteCallback: Function
 
     constructor(object) {
-        let _object = object
-        let _valuesStart = {}
-        let _valuesEnd = {}
-        let _valuesStartRepeat = {}
-        let _duration = 1000
-        let _repeat = 0
-        let _yoyo = false
-        let _isPlaying = false
-        let _reversed = false
-        let _delayTime = 0
-        let _startTime = null
-        let _easingFunction = Easing.Linear.None
-        let _interpolationFunction = Interpolation.Linear
-        let _chainedTweens = []
-        let _onStartCallback = null
-        let _onStartCallbackFired = false
-        let _onUpdateCallback = null
-        let _onCompleteCallback = null
+        this._object = object
+        this._valuesStart = {}
+        this._valuesEnd = {}
+        this._valuesStartRepeat = {}
+        this._duration = 1000
+        this._repeat = 0
+        this._yoyo = false
+        this._isPlaying = false
+        this._reversed = false
+        this._delayTime = 0
+        this._startTime = null
+        this._easingFunction = Easing.Linear.None
+        this._interpolationFunction = Interpolation.Linear
+        this._chainedTweens = []
+        this._onStartCallback = null
+        this._onStartCallbackFired = false
+        this._onUpdateCallback = null
+        this._onCompleteCallback = null
         // Set all starting values present on the target object
-        for (let field in object) {
-            _valuesStart[field] = parseFloat(object[field], 10)
+        for (const field in object) {
+            this._valuesStart[field] = parseFloat(object[field], 10)
         }
-        this.to = function(properties, duration) {
-            if (duration !== undefined) {
-                _duration = duration
-            }
-            _valuesEnd = properties
-            return this
+    }
+
+    public to(properties, duration) {
+        if (duration !== undefined) {
+            this._duration = duration
         }
-        this.start = function(time) {
-            TWEEN.add(this)
-            _isPlaying = true
-            _onStartCallbackFired = false
-            _startTime = time !== undefined ? time : (typeof window !== "undefined" && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now())
-            _startTime += _delayTime
-            for (let property in _valuesEnd) {
-                // check if an Array was provided as property value
-                if (_valuesEnd[property] instanceof Array) {
-                    if (_valuesEnd[property].length === 0) {
-                        continue
-                    }
-                    // create a local copy of the Array with the start value at the front
-                    _valuesEnd[property] = [_object[property]].concat(_valuesEnd[property])
+        this._valuesEnd = properties
+        return this
+    }
+
+    public start(time) {
+        TWEEN.add(this)
+        this._isPlaying = true
+        this._onStartCallbackFired = false
+        this._startTime = time !== undefined ? time : (typeof window !== "undefined" && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now())
+        this._startTime += this._delayTime
+        for (const property in this._valuesEnd) {
+            // check if an Array was provided as property value
+            if (this._valuesEnd[property] instanceof Array) {
+                if (this._valuesEnd[property].length === 0) {
+                    continue
                 }
-                _valuesStart[property] = _object[property]
-                if ((_valuesStart[property] instanceof Array) === false) {
-                    _valuesStart[property] *= 1.0 // Ensures we're using numbers, not strings
-                }
-                _valuesStartRepeat[property] = _valuesStart[property] || 0
+                // create a local copy of the Array with the start value at the front
+                this._valuesEnd[property] = [this._object[property]].concat(this._valuesEnd[property])
             }
-            return this
-        }
-        this.stop = function() {
-            if (!_isPlaying) {
-                return this
+            this._valuesStart[property] = this._object[property]
+            if ((this._valuesStart[property] instanceof Array) === false) {
+                this._valuesStart[property] *= 1.0 // Ensures we're using numbers, not strings
             }
-            TWEEN.remove(this)
-            _isPlaying = false
-            this.stopChainedTweens()
+            this._valuesStartRepeat[property] = this._valuesStart[property] || 0
+        }
+        return this
+    }
+
+
+    public stop() {
+        if (!this._isPlaying) {
             return this
         }
-        this.stopChainedTweens = function() {
-            for (let i = 0, numChainedTweens = _chainedTweens.length; i < numChainedTweens; i++) {
-                _chainedTweens[i].stop()
-            }
+        TWEEN.remove(this)
+        this._isPlaying = false
+
+        this.stopChainedTweens()
+        return this
+    }
+
+    public stopChainedTweens() {
+        for (let i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
+            this._chainedTweens[i].stop()
         }
-        this.delay = function(amount) {
-            _delayTime = amount
-            return this
-        }
-        this.repeat = function(times) {
-            _repeat = times
-            return this
-        }
-        this.yoyo = function(yoyo) {
-            _yoyo = yoyo
-            return this
-        }
-        this.easing = function(easing) {
-            _easingFunction = easing
-            return this
-        }
-        this.interpolation = function(interpolation) {
-            _interpolationFunction = interpolation
-            return this
-        }
-        this.chain = function() {
-            _chainedTweens = arguments
-            return this
-        }
-        this.onStart = function(callback) {
-            _onStartCallback = callback
-            return this
-        }
-        this.onUpdate = function(callback) {
-            _onUpdateCallback = callback
-            return this
-        }
-        this.onComplete = function(callback) {
-            _onCompleteCallback = callback
-            return this
-        }
-        this.update = function(time) {
-            let property
-            if (time < _startTime) {
-                return true
-            }
-            if (_onStartCallbackFired === false) {
-                if (_onStartCallback !== null) {
-                    _onStartCallback.call(_object)
-                }
-                _onStartCallbackFired = true
-            }
-            let elapsed = (time - _startTime) / _duration
-            elapsed = elapsed > 1 ? 1 : elapsed
-            let value = _easingFunction(elapsed)
-            for (property in _valuesEnd) {
-                let start = _valuesStart[property] || 0
-                let end = _valuesEnd[property]
-                if (end instanceof Array) {
-                    _object[property] = _interpolationFunction(end, value)
-                } else {
-                    // Parses relative end values with start as base (e.g.: +10, -3)
-                    if (typeof (end) === "string") {
-                        end = start + parseFloat(end, 10)
-                    }
-                    // protect against non numeric properties.
-                    if (typeof (end) === "number") {
-                        _object[property] = start + (end - start) * value
-                    }
-                }
-            }
-            if (_onUpdateCallback !== null) {
-                _onUpdateCallback.call(_object, value)
-            }
-            if (elapsed == 1) {
-                if (_repeat > 0) {
-                    if (isFinite(_repeat)) {
-                        _repeat--
-                    }
-                    // reassign starting values, restart by making startTime = now
-                    for (property in _valuesStartRepeat) {
-                        if (typeof (_valuesEnd[property]) === "string") {
-                            _valuesStartRepeat[property] = _valuesStartRepeat[property] + parseFloat(_valuesEnd[property], 10)
-                        }
-                        if (_yoyo) {
-                            let tmp = _valuesStartRepeat[property]
-                            _valuesStartRepeat[property] = _valuesEnd[property]
-                            _valuesEnd[property] = tmp
-                            _reversed = !_reversed
-                        }
-                        _valuesStart[property] = _valuesStartRepeat[property]
-                    }
-                    _startTime = time + _delayTime
-                    return true
-                } else {
-                    if (_onCompleteCallback !== null) {
-                        _onCompleteCallback.call(_object)
-                    }
-                    for (let i = 0, numChainedTweens = _chainedTweens.length; i < numChainedTweens; i++) {
-                        _chainedTweens[i].start(time)
-                    }
-                    return false
-                }
-            }
+    }
+
+    public delay(amount) {
+        this._delayTime = amount
+        return this
+    }
+
+    public repeat(times: number) {
+        this._repeat = times
+        return this
+    }
+
+    public yoyo(yoyo: boolean) {
+        this._yoyo = yoyo
+        return this
+    }
+
+    public easing(easing: number) {
+        this._easingFunction = easing
+        return this
+    }
+
+    public interpolation(interpolation) {
+        this._interpolationFunction = interpolation
+        return this
+    }
+
+    public chain(...args) {
+        this._chainedTweens = args
+        return this
+    }
+
+    public onStart(callback) {
+        this._onStartCallback = callback
+        return this
+    }
+
+    public onUpdate(callback) {
+        this._onUpdateCallback = callback
+        return this
+    }
+
+    public onComplete(callback) {
+        this._onCompleteCallback = callback
+        return this
+    }
+
+    public update(time) {
+        let property
+        if (time < this._startTime) {
             return true
         }
+        if (this._onStartCallbackFired === false) {
+            if (this._onStartCallback !== null) {
+                this._onStartCallback.call(this._object)
+            }
+            this._onStartCallbackFired = true
+        }
+        let elapsed = (time - this._startTime) / this._duration
+        elapsed = elapsed > 1 ? 1 : elapsed
+        const value = this._easingFunction(elapsed)
+        for (property in this._valuesEnd) {
+            const start = this._valuesStart[property] || 0
+            let end = this._valuesEnd[property]
+            if (end instanceof Array) {
+                this._object[property] = this._interpolationFunction(end, value)
+            } else {
+                // Parses relative end values with start as base (e.g.: +10, -3)
+                if (typeof (end) === "string") {
+                    end = start + parseFloat(end, 10)
+                }
+                // protect against non numeric properties.
+                if (typeof (end) === "number") {
+                    this._object[property] = start + (end - start) * value
+                }
+            }
+        }
+        if (this._onUpdateCallback !== null) {
+            this._onUpdateCallback.call(this._object, value)
+        }
+        if (elapsed == 1) {
+            if (this._repeat > 0) {
+                if (isFinite(this._repeat)) {
+                    this._repeat--
+                }
+                // reassign starting values, restart by making startTime = now
+                for (property in this._valuesStartRepeat) {
+                    if (typeof (this._valuesEnd[property]) === "string") {
+                        this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(this._valuesEnd[property], 10)
+                    }
+                    if (this._yoyo) {
+                        const tmp = this._valuesStartRepeat[property]
+                        this._valuesStartRepeat[property] = this._valuesEnd[property]
+                        this._valuesEnd[property] = tmp
+                        this._reversed = !this._reversed
+                    }
+                    this._valuesStart[property] = this._valuesStartRepeat[property]
+                }
+                this._startTime = time + this._delayTime
+                return true
+            } else {
+                if (this._onCompleteCallback !== null) {
+                    this._onCompleteCallback.call(this._object)
+                }
+                for (let i = 0, numChainedTweens = this._chainedTweens.length; i < numChainedTweens; i++) {
+                    this._chainedTweens[i].start(time)
+                }
+                return false
+            }
+        }
+        return true
     }
 
 }
