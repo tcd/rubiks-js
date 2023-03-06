@@ -8,13 +8,13 @@ export class EventDispatcher {
     constructor() { }
 
     public apply(object) {
-        object.addEventListener = EventDispatcher.prototype.addEventListener
-        object.hasEventListener = EventDispatcher.prototype.hasEventListener
+        object.addEventListener    = EventDispatcher.prototype.addEventListener
+        object.hasEventListener    = EventDispatcher.prototype.hasEventListener
         object.removeEventListener = EventDispatcher.prototype.removeEventListener
-        object.dispatchEvent = EventDispatcher.prototype.dispatchEvent
+        object.dispatchEvent       = EventDispatcher.prototype.dispatchEvent
     }
 
-    public addEventListener(type, listener) {
+    public addEventListener(type: string, listener: __<Function>) {
         if (this._listeners === undefined) this._listeners = {}
         const listeners = this._listeners
         if (listeners[type] === undefined) {
@@ -25,7 +25,7 @@ export class EventDispatcher {
         }
     }
 
-    public hasEventListener(type, listener): boolean {
+    public hasEventListener(type: string, listener: __<Function>): boolean {
         if (this._listeners === undefined) { return false }
         const listeners = this._listeners
         if (listeners[type] !== undefined && listeners[type].indexOf(listener) !== - 1) {
@@ -34,7 +34,7 @@ export class EventDispatcher {
         return false
     }
 
-    public removeEventListener(type, listener) {
+    public removeEventListener(type: string, listener: __<Function>) {
         if (this._listeners === undefined) { return }
         const listeners = this._listeners
         const listenerArray = listeners[type]
@@ -46,7 +46,6 @@ export class EventDispatcher {
         }
     }
 
-    // FIXME: IIFE
     public dispatchEvent(event) {
         const array = []
         if (this._listeners === undefined) { return }

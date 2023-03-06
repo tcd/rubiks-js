@@ -227,11 +227,6 @@ TWEEN.Tween = function(object) {
     }
 }())
 
-THREE.CSS3DSprite = function(element) {
-    THREE.CSS3DObject.call(this, element)
-}
-THREE.CSS3DSprite.prototype = Object.create(THREE.CSS3DObject.prototype)
-//
 THREE.CSS3DRenderer = function() {
     // console.log( 'THREE.CSS3DRenderer', THREE.REVISION );
     let _width, _height

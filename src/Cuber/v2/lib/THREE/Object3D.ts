@@ -342,6 +342,4 @@ export class Object3D extends EventDispatcher {
         }
         return object
     }
-
-
 }
