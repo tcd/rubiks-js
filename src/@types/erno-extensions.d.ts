@@ -2,6 +2,21 @@
 
 export declare global {
 
+    export interface Array<T> {
+        distanceTo: () => null | number
+        first: () => T
+        last: () => T
+        maximum: () => T
+        middle: () => T
+        minimum: () => T
+        rand: () => T
+        random: () => T
+        shuffle: () => false | Array<T>
+        toArray: () => Array<T>
+        toHtml: () => string
+        toText: (depth: number) => string
+    }
+
     export interface Number {
         /** Return the value of a number as a new variable to avoid mutation.  */
         dupe: () => number
