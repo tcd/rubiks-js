@@ -227,29 +227,6 @@ TWEEN.Tween = function(object) {
     }
 }())
 
-/**
- * Based on http://www.emagix.net/academic/mscs-project/item/camera-sync-with-css3-and-webgl-threejs
- * @author [mrdoob](http://mrdoob.com/)
- * @author [mark lundin](http://mark-lundin.com)
- *
- * This is slightly modified CSS Renderer that sets the object transform as individual translate, scale and rotate.
-    *  The reason for this is that the transformation using matrix3d do not scale correctly under browser zoom.
-    */
-THREE.CSS3DObject = function(element) {
-    THREE.Object3D.call(this)
-    this.element = element
-    this.done = false
-    this.element.style.position = "absolute"
-    this.addEventListener("removed", function(event) {
-        if (this.element.parentNode !== null) {
-            this.element.parentNode.removeChild(this.element)
-            for (let i = 0, l = this.children.length; i < l; i++) {
-                this.children[i].dispatchEvent(event)
-            }
-        }
-    })
-}
-THREE.CSS3DObject.prototype = Object.create(THREE.Object3D.prototype)
 THREE.CSS3DSprite = function(element) {
     THREE.CSS3DObject.call(this, element)
 }
