@@ -1,6 +1,20 @@
 import { Easing } from "./Easing"
 import { Interpolation } from "./Interpolation"
+import { TWEEN } from "./TWEEN"
 
+/**
+ * @author [sole](http://soledadpenades.com)
+ * @author [mrdoob](http://mrdoob.com)
+ * @author [Robert Eisele](http://www.xarg.org)
+ * @author [Philippe](http://philippe.elsass.me)
+ * @author [Robert Penner](http://www.robertpenner.com/easing_terms_of_use.html)
+ * @author [Paul Lewis](http://www.aerotwist.com/)
+ * @author lechecacharro
+ * @author [Josh Faul](http://jocafa.com/)
+ * @author [egraether](http://egraether.com/)
+ * @author [endel](http://endel.me)
+ * @author [Ben Delarre](http://delarre.net)
+ */
 export class Tween {
 
     public _object
@@ -14,7 +28,7 @@ export class Tween {
     public _reversed: boolean
     public _delayTime: number
     public _startTime
-    public _easingFunction: number
+    public _easingFunction
     public _interpolationFunction
     public _chainedTweens: Tween[]
     public _onStartCallbackFired: boolean
@@ -43,7 +57,7 @@ export class Tween {
         this._onCompleteCallback = null
         // Set all starting values present on the target object
         for (const field in object) {
-            this._valuesStart[field] = parseFloat(object[field], 10)
+            this._valuesStart[field] = parseFloat(object[field])
         }
     }
 
@@ -56,7 +70,8 @@ export class Tween {
     }
 
     public start(time) {
-        TWEEN.add(this)
+        // FIXME: TWEEN
+        // TWEEN.add(this)
         this._isPlaying = true
         this._onStartCallbackFired = false
         this._startTime = time !== undefined ? time : (typeof window !== "undefined" && window.performance !== undefined && window.performance.now !== undefined ? window.performance.now() : Date.now())
@@ -84,7 +99,8 @@ export class Tween {
         if (!this._isPlaying) {
             return this
         }
-        TWEEN.remove(this)
+        // FIXME: TWEEN
+        // TWEEN.remove(this)
         this._isPlaying = false
 
         this.stopChainedTweens()
@@ -164,7 +180,7 @@ export class Tween {
             } else {
                 // Parses relative end values with start as base (e.g.: +10, -3)
                 if (typeof (end) === "string") {
-                    end = start + parseFloat(end, 10)
+                    end = start + parseFloat(end)
                 }
                 // protect against non numeric properties.
                 if (typeof (end) === "number") {
@@ -183,7 +199,7 @@ export class Tween {
                 // reassign starting values, restart by making startTime = now
                 for (property in this._valuesStartRepeat) {
                     if (typeof (this._valuesEnd[property]) === "string") {
-                        this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(this._valuesEnd[property], 10)
+                        this._valuesStartRepeat[property] = this._valuesStartRepeat[property] + parseFloat(this._valuesEnd[property])
                     }
                     if (this._yoyo) {
                         const tmp = this._valuesStartRepeat[property]
