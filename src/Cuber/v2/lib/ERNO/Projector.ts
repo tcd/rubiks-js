@@ -147,7 +147,7 @@ export class ProjectorApi extends Projector {
     }
 
     // Given
-    public getCubeletAtIntersection(intersection) {
+    public getCubeletAtIntersection(intersection: Vector3) {
         const tmp = new Vector3()
         // Translate the world coordinates to a 3D index of the intersected cubelets location.
         tmp.copy(intersection).add(this.box.max)
