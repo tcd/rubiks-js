@@ -15,7 +15,7 @@ export class Queue {
 
     public validate
 
-    constructor(validation) {
+    constructor(validation = undefined) {
         // Do we want to run a validation routine on objects being stored in
         // this ERNO.Queue?
         // If so you can send the function as an argument to the

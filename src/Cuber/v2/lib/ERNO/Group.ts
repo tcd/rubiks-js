@@ -56,7 +56,7 @@ export class Group extends EventDispatcher {
     // Engaged on the Z axis? Etc.
     public isFlagged(property) {
         let count = 0
-        this.cubelets.forEach(function(cubelet) {
+        this.cubelets.forEach((cubelet) => {
             count += cubelet[property] ? 1 : 0
         })
         return count
@@ -98,8 +98,7 @@ export class Group extends EventDispatcher {
     }
 
     public hasColor(color) {
-        const
-            results = new Group()
+        const results = new Group()
         this.cubelets.forEach((cubelet) => {
             if (cubelet.hasColor(color)) {
                 results.add(cubelet)
@@ -133,12 +132,12 @@ export class Group extends EventDispatcher {
                 if (faceColors[color] === undefined) {
                     faceColors[color] = 1
                     numberOfColors++
+                } else {
+                    faceColors[color]++
                 }
-                else faceColors[color]++
             })
             return numberOfColors === 1 ? true : false
-        }
-        else {
+        } else {
             console.warn("A face [String or Controls] argument must be specified when using Group.isSolved().")
             return false
         }

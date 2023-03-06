@@ -128,7 +128,7 @@ export class Tween {
         return this
     }
 
-    public easing(easing: number) {
+    public easing(easing) {
         this._easingFunction = easing
         return this
     }

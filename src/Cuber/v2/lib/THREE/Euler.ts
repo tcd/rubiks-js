@@ -71,7 +71,7 @@ export class Euler {
     // Methods
     // =========================================================================
 
-    public set(x: number, y: number, z: number, order: string) {
+    public set(x: number, y: number, z: number, order: string = undefined) {
         this._x = x
         this._y = y
         this._z = z

@@ -1,12 +1,15 @@
 /**
- * COLORS
+ * ## COLORS
+ *
  * Here's a little bootstrapping to create our Color constants.
+ *
  * At first it seemed like overkill, but then as the solvers and inspectors
  * moved forward having these objects available became highly desirable.
- * Sure, ES5 doesn't really have constants but the all-caps alerts you
- * to the fact that them thar letiables ought not to be messed with.
  *
- * @author Mark Lundin - http://www.mark-lundin.com
+ * ~~Sure, ES5 doesn't really have constants but the all-caps alerts you
+ * to the fact that them than let-ables ought not to be messed with.~~
+ *
+ * @author [Mark Lundin](http://www.mark-lundin.com)
  * @author Stewart Smith
  */
 export class Color {

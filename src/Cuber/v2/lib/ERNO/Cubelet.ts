@@ -1,5 +1,7 @@
 import { Matrix4 } from "../THREE/Matrix4"
 import { Object3D } from "../THREE/Object3D"
+import { Easing } from "../TWEEN/Easing"
+import { Tween } from "../TWEEN/Tween.class"
 import { _ } from "../_"
 import { Color } from "./Color"
 import { Cube } from "./Cube"
@@ -58,32 +60,32 @@ export class Cubelet extends Object3D {
     public size: number
     public matrixSlice
     public faces
-    address
-    addressX: number
-    addressY: number
-    addressZ: number
-    type: string
-    front: any
-    right: any
-    down: any
-    left: any
-    back: any
-    colors: any
-    isStickerCubelet: boolean
-    isTweening: boolean
-    isEngagedX: boolean
-    isEngagedY: boolean
-    isEngagedZ: boolean
-    opacity: number
-    radius: number
+    public address
+    public addressX: number
+    public addressY: number
+    public addressZ: number
+    public type: string
+    public front: any
+    public right: any
+    public down: any
+    public left: any
+    public back: any
+    public colors: any
+    public isStickerCubelet: boolean
+    public isTweening: boolean
+    public isEngagedX: boolean
+    public isEngagedY: boolean
+    public isEngagedZ: boolean
+    public opacity: number
+    public radius: number
 
-    constructor(cube: Cube, id = 0, colors: Color[] = undefined) {
+    constructor(cube: Cube, id: number = 0, colors: Color[] = undefined) {
         super()
         // Our Cube can directly address its Cubelet children,
         // only fair the Cubelet can address their parent Cube!
         this.cube = cube
         // Our Cubelet's ID is its unique number on the Cube.
-        // Each Cube has Cubletes numbered 0 through 26.
+        // Each Cube has Cubelets numbered 0 through 26.
         // Even if we're debugging (and not attached to an actual Cube)
         // we need an ID number for later below
         // when we derive positions and rotations for the Cubelet faces.
@@ -215,7 +217,7 @@ export class Cubelet extends Object3D {
             "edge",
             "corner",
         ][extrovertedFaces]
-        // Convience accessors for the Cubelet's faces.
+        // Convenience accessors for the Cubelet's faces.
         // What color is the left face? this.left() !!
         this.front = this.faces[0]
         this.up = this.faces[1]
@@ -284,7 +286,7 @@ export class Cubelet extends Object3D {
     }
 
     // Does this Cubelet contain a certain color?
-    // If so, return a String decribing what face that color is on.
+    // If so, return a String describing what face that color is on.
     // Otherwise return false.
     hasColor(color) {
         let i
@@ -336,31 +338,33 @@ export class Cubelet extends Object3D {
         // because one side is probably engaged in a twist tween.
         if (this.isTweening === false) {
             radius = radius || 0
-            if (this.radius === undefined) this.radius = 0
+            if (this.radius === undefined) {
+                this.radius = 0
+            }
             if (this.radius !== radius) {
                 // Here's some extra cuteness to make the tween's duration
                 // proportional to the distance traveled.
                 // let tweenDuration = ( this.radius - radius ).absolute().scale( 0, 100, 0, 1000 )
                 this.isTweening = true
-                const tweenDuration = (this.radius - radius).absolute(),
-                    obj = { radius: this.radius }
+                const tweenDuration = (this.radius - radius).absolute()
+                const obj = { radius: this.radius }
                 new Tween(obj)
                     .to({ radius: radius }, tweenDuration)
-                    .easing(TWEEN.Easing.Quartic.Out)
-                    .onUpdate(function() {
+                    .easing(Easing.Quartic.Out)
+                    .onUpdate(() => {
                         this.position.set(this.addressX.multiply(this.size + obj.radius) + 0.2, this.addressY.multiply(this.size + obj.radius) + 0.2, this.addressZ.multiply(this.size + obj.radius) + 0.2)
                         this.updateMatrix()
                         this.matrixSlice.copy(this.matrix)
                         this.radius = obj.radius
-                    }.bind(this))
-                    .onComplete(function() {
+                    })
+                    .onComplete(() => {
                         this.isTweening = false
                         this.position.set(this.addressX.multiply(this.size + obj.radius) + 0.2, this.addressY.multiply(this.size + obj.radius) + 0.2, this.addressZ.multiply(this.size + obj.radius) + 0.2)
                         this.updateMatrix()
                         this.matrixSlice.copy(this.matrix)
                         this.radius = obj.radius
                         if (onComplete instanceof Function) onComplete()
-                    }.bind(this))
+                    })
                     .start(this.cube.time)
             }
         }
