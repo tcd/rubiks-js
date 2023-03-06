@@ -4,6 +4,11 @@ export declare global {
 
     export type ValueOf<T> = T[keyof T]
 
+    /**
+     * Signifies that you're not positive what type is being used.
+     */
+    export type __<T> = T
+
     // =========================================================================
     // Config
     // =========================================================================
