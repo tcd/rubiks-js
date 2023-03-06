@@ -23,15 +23,17 @@ String.prototype.justifyCenter = function(n: number) {
     let padRightLength = containerRightLength - thisRightLength
     let centered = `${this}`
     if (padLeftLength > 0) {
-        while (padLeftLength--) { centered = " " + centered }
-    }
-    else if (padLeftLength < 0) {
+        while (padLeftLength--) {
+            centered = " " + centered
+        }
+    } else if (padLeftLength < 0) {
         centered = centered.substr(padLeftLength * -1)
     }
     if (padRightLength > 0) {
-        while (padRightLength--) { centered += " " }
-    }
-    else if (padRightLength < 0) {
+        while (padRightLength--) {
+            centered += " "
+        }
+    } else if (padRightLength < 0) {
         centered = centered.substr(0, centered.length + padRightLength)
     }
     return centered
@@ -52,10 +54,18 @@ String.prototype.justifyRight = function(n) {
 }
 
 String.prototype.multiply = function(n) {
+    const cascade =(...args) => {
+        for (let i = 0; i < args.length; i++) {
+            if (args[i] !== undefined) {
+                return args[i]
+            }
+        }
+        return false
+    }
     let s = ""
-    n = _.cascade(n, 2)
+    n = cascade(n, 2)
     for (let i = 0; i < n; i++) {
-        s += this
+        s += this.toString()
     }
     return s
 }
